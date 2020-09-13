@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class Texture {
-
     private int width, height;
     private int texture;
 
@@ -52,6 +52,7 @@ public class Texture {
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
         glBindTexture(GL_TEXTURE_2D, 0);
+
         return result;
     }
 
@@ -66,5 +67,4 @@ public class Texture {
     public int getTextureID() {
         return texture;
     }
-
 }

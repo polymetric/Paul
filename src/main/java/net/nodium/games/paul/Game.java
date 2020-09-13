@@ -1,28 +1,39 @@
 package net.nodium.games.paul;
 
+import net.nodium.games.paul.entities.Camera;
 import net.nodium.games.paul.entities.Entity;
+import net.nodium.games.paul.entities.EntityOofCube;
 import net.nodium.games.paul.gl.Display;
 import net.nodium.games.paul.gl.models.GLModel;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.gl.textures.Texture;
+import net.nodium.games.paul.input.KeyHandler;
+import net.nodium.games.paul.input.MouseHandler;
 import org.joml.Vector3f;
 
 public class Game {
     public GameLoop gameLoop;
+    public KeyHandler keyHandler;
+    public MouseHandler mouseHandler;
     public Display display;
     public GLShaderBase shader;
     public Renderer renderer;
     public EntityHandler entityHandler;
     public AssetLoader assetLoader;
-
+    public Camera camera;
 
     public Game(String[] args) {
+        keyHandler = new KeyHandler(this);
+
         display = new Display(800, 800, "Paul");
+        display.setKeyHandler(keyHandler);
         display.createWindow();
+        mouseHandler = new MouseHandler(this, display);
 
         assetLoader = new AssetLoader();
         shader = new GLShaderBase();
-        renderer = new Renderer(this, display, shader);
+        camera = new Camera(mouseHandler);
+        renderer = new Renderer(this, display, shader, camera);
 
         gameLoop = new GameLoop(this);
         entityHandler = new EntityHandler();
@@ -36,35 +47,11 @@ public class Game {
 
     private void init() {
         renderer.init();
+        entityHandler.init();
 
         // test stuff
 
 //        shader = new GLShaderBase();
-
-        float[] vertices = {
-                -0.5f, 0.5f, 0f,//v0
-                -0.5f, -0.5f, 0f,//v1
-                0.5f, -0.5f, 0f,//v2
-                0.5f, 0.5f, 0f,//v3
-        };
-
-        int[] indices = {
-                0,1,3,//top left triangle (v0, v1, v3)
-                3,1,2//bottom right triangle (v3, v1, v2)
-        };
-
-        float[] textureCoords = {
-                0,0,
-                0,1,
-                1,1,
-                1,0
-        };
-
-        Texture textureTest = new Texture("src/main/resources/textures/face.png");
-        GLModel modelTest = assetLoader.loadToVAO(vertices, indices, textureCoords, textureTest, shader);
-        Entity entityTest = new Entity(modelTest, new Vector3f(0.0F, 0.0F, 0.0F));
-
-        entityHandler.entities.add(entityTest);
     }
 
     private void loop() {
@@ -72,6 +59,8 @@ public class Game {
     }
 
     public void tick() {
+        mouseHandler.tick();
+        camera.tick();
         entityHandler.tick();
     }
 

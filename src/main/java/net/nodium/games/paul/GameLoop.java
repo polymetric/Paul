@@ -1,33 +1,24 @@
 package net.nodium.games.paul;
 
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallbackI;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.system.MemoryStack;
-
-import java.nio.IntBuffer;
-
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
 
 public class GameLoop {
     public Game game;
 
     // game logic
-    public static final int TARGET_TPS = 240;
+    public static final int TARGET_TPS = 60;
     public double tps;
-    private long lastTick;
-    private long logicDelta;
+    private long lastTick = 0;
+    private long logicDelta = 0;
     public long ticks;
 
     // renderer
-    public static final int TARGET_FPS = 240;
+    public static final int TARGET_FPS = 60;
     public double fps;
-    private long lastRender;
+    private long lastFrame;
     private long renderDelta;
     public long frames;
+    public float timeTillNextTick;
 
     public static final double NANOS_PER_SECOND = 1e9D;
 
@@ -39,7 +30,7 @@ public class GameLoop {
         while(!glfwWindowShouldClose(game.display.getWindowID())) {
             long now = System.nanoTime();
             logicDelta = now - lastTick;
-            renderDelta = now - lastRender;
+            renderDelta = now - lastFrame;
 
             if (logicDelta >= NANOS_PER_SECOND / TARGET_TPS) {
                 tps = NANOS_PER_SECOND / logicDelta;
@@ -47,14 +38,17 @@ public class GameLoop {
                 game.tick();
                 lastTick = System.nanoTime();
                 ticks++;
+//                System.out.println("tick");
             }
 
             if (renderDelta >= NANOS_PER_SECOND / TARGET_FPS) {
                 fps = (int) Math.ceil(NANOS_PER_SECOND / renderDelta);
 //                System.out.println(fps);
                 game.render();
-                lastRender = System.nanoTime();
+                lastFrame = System.nanoTime();
                 frames++;
+                timeTillNextTick = logicDelta / (float) (NANOS_PER_SECOND / (float) TARGET_TPS);
+//                System.out.println(timeTillNextTick);
             }
         }
     }

@@ -1,5 +1,7 @@
 package net.nodium.games.paul.gl.shaders;
 
+import net.nodium.games.paul.entities.Camera;
+import net.nodium.games.paul.math.MathUtils;
 import org.joml.Matrix4f;
 
 public class GLShaderBase extends GLShader {
@@ -8,6 +10,7 @@ public class GLShaderBase extends GLShader {
 
     private int locTransMatrix;
     private int locProjMatrix;
+    private int locViewMatrix;
     private int locColor;
 
     public GLShaderBase() {
@@ -18,6 +21,7 @@ public class GLShaderBase extends GLShader {
     protected void getAllUniformLocations() {
         locTransMatrix = super.getUniformLocation("transMatrix");
         locProjMatrix = super.getUniformLocation("projMatrix");
+        locViewMatrix = super.getUniformLocation("viewMatrix");
         locColor = super.getUniformLocation("passColor");
     }
 
@@ -33,5 +37,10 @@ public class GLShaderBase extends GLShader {
 
     public void loadProjMatrix(Matrix4f matrix) {
         super.loadMatrix4f(locProjMatrix, matrix);
+    }
+
+    public void loadViewMatrix(Camera camera) {
+        Matrix4f matrix = MathUtils.createViewMatrix(camera);
+        super.loadMatrix4f(locViewMatrix, matrix);
     }
 }

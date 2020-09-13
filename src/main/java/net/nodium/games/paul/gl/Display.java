@@ -1,7 +1,7 @@
 package net.nodium.games.paul.gl;
 
+import net.nodium.games.paul.input.KeyHandler;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
@@ -17,6 +17,7 @@ public class Display {
     private int width;
     private int height;
     private String title;
+    private KeyHandler keyHandler;
 
     public Display(int width, int height, String title) {
         this.width = width;
@@ -47,14 +48,15 @@ public class Display {
 
         // setup a key callback, called every time a key is pressed, repeated or released
         // TODO move this to its own class
-        glfwSetKeyCallback(windowID, new GLFWKeyCallbackI() {
-            @Override
-            public void invoke(long window, int key, int scancode, int action, int mods) {
-                if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-                    glfwSetWindowShouldClose(window, true); // the main loop detects this and ends when it's true
-                }
-            }
-        });
+//        glfwSetKeyCallback(windowID, new GLFWKeyCallbackI() {
+//            @Override
+//            public void invoke(long window, int key, int scancode, int action, int mods) {
+//                if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+//                    glfwSetWindowShouldClose(window, true); // the main loop detects this and ends when it's true
+//                }
+//            }
+//        });
+        glfwSetKeyCallback(windowID, keyHandler);
 
         // get the thread stack and push a new frame
         try (MemoryStack stack = stackPush()) {
@@ -103,5 +105,13 @@ public class Display {
 
     public String getTitle() {
         return title;
+    }
+
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
+
+    public void setKeyHandler(KeyHandler keyHandler) {
+        this.keyHandler = keyHandler;
     }
 }
