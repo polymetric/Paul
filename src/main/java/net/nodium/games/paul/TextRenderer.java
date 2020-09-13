@@ -5,14 +5,10 @@ import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
 import java.io.FileInputStream;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -25,14 +21,14 @@ public class TextRenderer {
     private int imgHeight = 64;
 
     public void renderText() {
-        byte[] text = getCharPixels('b');
+        byte[] text = getCharImage('b');
         ByteBuffer buffer = BufferUtils.createByteBuffer(text.length);
         buffer.put(text);
         buffer.rewind();
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 8, 8, 0, GL_RGBA, GL_BYTE, buffer);
     }
 
-    public byte[] getCharPixels(char c) {
+    public byte[] getCharImage(char c) {
         c = String.valueOf(c).toUpperCase().charAt(0);
         Vector2i topLeft = getCharOffset(c);
         try {

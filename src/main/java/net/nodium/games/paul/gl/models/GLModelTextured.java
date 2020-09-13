@@ -1,5 +1,6 @@
 package net.nodium.games.paul.gl.models;
 
+import net.nodium.games.paul.gl.shaders.GLShader;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.gl.textures.Texture;
 import org.joml.Matrix4f;
@@ -8,16 +9,13 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-public class GLModel {
-    private int vaoID;
-    private int vertexCount;
+public class GLModelTextured extends GLModelRaw {
     private Texture texture;
     public GLShaderBase shader;
     private Matrix4f transformationMatrix;
 
-    public GLModel(int vaoID, int vertexCount, Texture texture, GLShaderBase shader) {
-        this.vaoID = vaoID;
-        this.vertexCount = vertexCount;
+    public GLModelTextured(int vaoID, int vertexCount, Texture texture, GLShaderBase shader) {
+        super(vaoID, vertexCount);
         this.texture = texture;
         this.shader = shader;
     }
@@ -41,14 +39,6 @@ public class GLModel {
         GL30.glBindVertexArray(0);
 
         shader.stop();
-    }
-
-    public int getVaoID() {
-        return vaoID;
-    }
-
-    public int getVertexCount() {
-        return vertexCount;
     }
 
     public void setTransformationMatrix(Matrix4f matrix) {

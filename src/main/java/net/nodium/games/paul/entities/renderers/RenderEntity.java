@@ -19,10 +19,7 @@ public class RenderEntity {
     }
 
     public void render(Entity entity, ModelEntity modelEntity) {
-        Vector3f posVis = new Vector3f();
-        Vector3f rotVis = new Vector3f();
-
-        modelEntity.model.setTransformationMatrix(MathUtils.createTransformationMatrix(entity.pos, entity.rot, 1.0F));
+        modelEntity.model.setTransformationMatrix(MathUtils.createTransformationMatrix(entity.posVis, entity.rotVis, 1.0F));
         modelEntity.model.render();
     }
 }

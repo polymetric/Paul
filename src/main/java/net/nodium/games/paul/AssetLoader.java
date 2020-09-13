@@ -1,7 +1,8 @@
 
 package net.nodium.games.paul;
 
-import net.nodium.games.paul.gl.models.GLModel;
+import net.nodium.games.paul.gl.models.GLModelRaw;
+import net.nodium.games.paul.gl.models.GLModelTextured;
 import net.nodium.games.paul.gl.GLUtils;
 import net.nodium.games.paul.gl.shaders.GLShader;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
@@ -20,7 +21,7 @@ public class AssetLoader {
     private ArrayList<Integer> vbos = new ArrayList<Integer>();
     private ArrayList<Integer> textures = new ArrayList<Integer>();
 
-    public GLModel loadToVAO(float[] positions, int[] indices, float[] textureCoords, Texture texture, GLShaderBase shader) {
+    public GLModelTextured loadToVAO(float[] positions, int[] indices, float[] textureCoords, Texture texture, GLShaderBase shader) {
         int vaoID = createVAO();
 
         bindIndicesBuffer(indices);
@@ -29,7 +30,17 @@ public class AssetLoader {
 
         unbindVAO();
 
-        return new GLModel(vaoID, indices.length, texture, shader);
+        return new GLModelTextured(vaoID, indices.length, texture, shader);
+    }
+
+    public GLModelRaw loadToVAO(float[] positions) {
+        int vaoID = createVAO();
+
+        storeDataInAttributeList(0, 2, positions);
+
+        unbindVAO();
+
+        return new GLModelRaw(vaoID, positions.length / 2);
     }
 
     public void cleanup() {

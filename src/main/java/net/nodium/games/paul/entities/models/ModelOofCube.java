@@ -1,9 +1,6 @@
 package net.nodium.games.paul.entities.models;
 
-import net.nodium.games.paul.AssetLoader;
 import net.nodium.games.paul.entities.renderers.RenderEntity;
-import net.nodium.games.paul.entities.renderers.RenderOofCube;
-import net.nodium.games.paul.gl.models.GLModel;
 import net.nodium.games.paul.gl.textures.Texture;
 
 public class ModelOofCube extends ModelEntity {
@@ -87,7 +84,6 @@ public class ModelOofCube extends ModelEntity {
 
         Texture textureTest = new Texture("src/main/resources/textures/face.png");
 
-        System.out.println(entityRenderer.shader);
         super.model = entityRenderer.assetLoader.loadToVAO(vertices, indices, textureCoords, textureTest, entityRenderer.shader);
     }
 }

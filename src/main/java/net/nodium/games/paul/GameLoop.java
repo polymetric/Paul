@@ -52,4 +52,16 @@ public class GameLoop {
             }
         }
     }
+
+    public double getTps() {
+        if (ticks == 0) {
+            return TARGET_TPS;
+        } else {
+            return tps;
+        }
+    }
+
+    public double getLogicDelta() {
+        return logicDelta / NANOS_PER_SECOND;
+    }
 }

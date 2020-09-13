@@ -2,6 +2,8 @@ package net.nodium.games.paul.math;
 
 import net.nodium.games.paul.entities.Camera;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.joml.Vector3f;
 
 public class MathUtils {
@@ -13,6 +15,14 @@ public class MathUtils {
         matrix.rotate((float) Math.toRadians(rotation.z), new Vector3f(0, 0, 1));
         matrix.scale(scale);
 
+        return matrix;
+    }
+
+    public static Matrix4f createTransformationMatrix(Vector2f translation, float scale) {
+        Matrix4f matrix = new Matrix4f();
+
+        matrix.translate(new Vector3f(translation.x, translation.y, 0f));
+        matrix.scale(new Vector3f(scale, scale, 1f));
         return matrix;
     }
 

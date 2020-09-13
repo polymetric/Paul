@@ -8,6 +8,7 @@ import net.nodium.games.paul.entities.renderers.RenderOofCube;
 import net.nodium.games.paul.gl.*;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -29,6 +30,8 @@ public class Renderer {
     private final float NEAR_PLANE = 0.001f;
     private final float FAR_PLANE = 1000f;
 
+    private Vector3f bg = new Vector3f(0, 0, 0);
+
     public Renderer(Game game, Display display, GLShaderBase shader, Camera camera) {
         this.game = game;
         this.display = display;
@@ -45,18 +48,24 @@ public class Renderer {
     }
 
     public void init() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     public void render() {
         GL11.glEnable(GL_DEPTH_TEST);
 
         // set the clear color
-        glClearColor(1.0f, 0.0f, 1.0f, 0.0f);
+//        glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+        double mult = 5D;
+        bg.x = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360)) + 1) / 2;
+        bg.y = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360) + (Math.PI * 2 / 3)) + 1) / 2;
+        bg.z = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360) + (Math.PI * 4 / 3)) + 1) / 2;
+        glClearColor(bg.x, bg.y, bg.z, 0.0f);
 
         // clear the framebuffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//        camera.render(game.gameLoop.timeTillNextTick);
+        camera.render();
 
         shader.start();
         shader.loadViewMatrix(camera);
@@ -67,6 +76,8 @@ public class Renderer {
             RenderEntity renderEntity = getEntityRenderer(e);
             renderEntity.render(e, renderEntity.modelEntity);
         }
+
+        game.guiManager.render();
 
         // swap the color buffers
         glfwSwapBuffers(display.getWindowID());
