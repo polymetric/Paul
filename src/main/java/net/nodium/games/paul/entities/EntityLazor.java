@@ -9,7 +9,6 @@ public class EntityLazor extends Entity {
 
     @Override
     public void init() {
-        enableGravity = false;
-
+//        enableGravity = false;
     }
 }

@@ -1,7 +1,6 @@
 package net.nodium.games.paul.entities;
 
 import net.nodium.games.paul.EntityHandler;
-import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.input.MouseHandler;
 import net.nodium.games.paul.sound.SoundListener;
 import org.joml.Vector3f;

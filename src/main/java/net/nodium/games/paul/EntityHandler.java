@@ -16,17 +16,18 @@ public class EntityHandler {
     }
 
     public void init() {
-//        entities.add(new EntityOofCube(1, 0, 1));
+//        new EntityOofCube(1, 0, 1);
 
 //        for (int i = 0; i < 1000; i++) {
-//            entities.add(new EntityOofCube(temp(), 0, temp()));
+//            new EntityOofCube(temp(), 0, temp());
 //        }
     }
 
     public void tick() {
         if (game.gameLoop.ticks % 1 == 0) {
             for (int i = 0; i < 2; i++) {
-                new EntityOofCube(this);
+                new EntityOofCube(this)
+                        .setPos(0, 0, 0);
             }
         }
 

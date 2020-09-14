@@ -21,7 +21,7 @@ public class Entity {
 
     public float gravityAccel = 9.8F;
     public float airResistanceDecel = 0.00F;
-    public float posVelMax = 10F;
+    public float posVelMax = 1000F;
     public float rotVelMax = 360F;
     public float accel = 100F;
 
@@ -89,9 +89,29 @@ public class Entity {
         posVel.z += accel * Math.sin(Math.toRadians(angle)) * getLogicDelta();
     }
 
+    // setters
+
     public void setDead() {
         isDead = true;
     }
+
+    public Entity setPos(float x, float y, float z) {
+        this.pos.x = x;
+        this.pos.y = y;
+        this.pos.z = z;
+
+        return this;
+    }
+
+    public Entity setRot(float x, float y, float z) {
+        this.rot.x = x;
+        this.rot.y = y;
+        this.rot.z = z;
+
+        return this;
+    }
+
+    // getters
 
     public boolean isDead() {
         return isDead;

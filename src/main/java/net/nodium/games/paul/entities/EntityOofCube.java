@@ -26,6 +26,7 @@ public class EntityOofCube extends Entity {
         posVel.z = (rand.nextFloat() - rand.nextFloat()) * 10;
     }
 
+    @Override
     public void tick() {
         brrAmount += 0.01F * getLogicDelta();
 

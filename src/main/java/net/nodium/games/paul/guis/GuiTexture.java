@@ -4,13 +4,33 @@ import net.nodium.games.paul.gl.textures.Texture;
 import org.joml.Vector2f;
 
 public class GuiTexture {
-    public Texture texture;
-    public Vector2f pos;
-    public float scale;
+    private GuiManager guiManager;
 
-    public GuiTexture(Texture texture, Vector2f pos, float scale) {
+    public Texture texture;
+    public Vector2f pos = new Vector2f(0, 0);
+    public float scale = 0;
+
+    public GuiTexture(GuiManager guiManager) {
+        this.guiManager = guiManager;
+
+        guiManager.guis.add(this);
+    }
+
+    // setters
+
+    public GuiTexture setTexture(Texture texture) {
         this.texture = texture;
-        this.pos = pos;
+        return this;
+    }
+
+    public GuiTexture setPos(float x, float y) {
+        this.pos.x = x;
+        this.pos.y = y;
+        return this;
+    }
+
+    public GuiTexture setScale(float scale) {
         this.scale = scale;
+        return this;
     }
 }
