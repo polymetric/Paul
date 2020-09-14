@@ -12,7 +12,9 @@ public class EntityCamera extends Entity {
     @Override
     public void init() {
         enableGravity = false;
-        airResistanceDecel = 10F;
+
+        airResistanceDecel = 5F;
+        speed = 30F;
     }
 
     @Override

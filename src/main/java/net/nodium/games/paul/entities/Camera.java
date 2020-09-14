@@ -64,10 +64,10 @@ public class Camera {
             entityCamera.moveHorizAngle(yaw - 90);
         }
         if (isMovingUp) {
-            entityCamera.posVel.y += entityCamera.accel * entityCamera.getLogicDelta();
+            entityCamera.posVel.y += entityCamera.speed * entityCamera.getLogicDelta();
         }
         if (isMovingDown) {
-            entityCamera.posVel.y -= entityCamera.accel * entityCamera.getLogicDelta();
+            entityCamera.posVel.y -= entityCamera.speed * entityCamera.getLogicDelta();
         }
     }
 }

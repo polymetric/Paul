@@ -17,6 +17,7 @@ public class EntityHandler {
 
     public void init() {
 //        new EntityOofCube(1, 0, 1);
+        new EntityOofCube(this);
 
 //        for (int i = 0; i < 1000; i++) {
 //            new EntityOofCube(temp(), 0, temp());
@@ -24,12 +25,12 @@ public class EntityHandler {
     }
 
     public void tick() {
-        if (game.gameLoop.ticks % 1 == 0) {
-            for (int i = 0; i < 2; i++) {
-                new EntityOofCube(this)
-                        .setPos(0, 0, 0);
-            }
-        }
+//        if (game.gameLoop.ticks % 1 == 0) {
+//            for (int i = 0; i < 2; i++) {
+//                new EntityOofCube(this)
+//                        .setPos(0, 0, 0);
+//            }
+//        }
 
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);

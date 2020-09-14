@@ -23,7 +23,7 @@ public class Entity {
     public float airResistanceDecel = 0.00F;
     public float posVelMax = 1000F;
     public float rotVelMax = 360F;
-    public float accel = 100F;
+    public float speed = 100F;
 
     public boolean enableGravity = true;
     public boolean enableVelocity = true;
@@ -85,8 +85,8 @@ public class Entity {
 
     public void moveHorizAngle(double angle) {
         angle = angle - 90;
-        posVel.x += accel * Math.cos(Math.toRadians(angle)) * getLogicDelta();
-        posVel.z += accel * Math.sin(Math.toRadians(angle)) * getLogicDelta();
+        posVel.x += speed * Math.cos(Math.toRadians(angle)) * getLogicDelta();
+        posVel.z += speed * Math.sin(Math.toRadians(angle)) * getLogicDelta();
     }
 
     // setters
