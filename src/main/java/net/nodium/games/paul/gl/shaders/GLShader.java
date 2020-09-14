@@ -1,6 +1,5 @@
 package net.nodium.games.paul.gl.shaders;
 
-import net.nodium.games.paul.gl.GLUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -9,9 +8,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.system.MemoryStack;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.FloatBuffer;
 
 public abstract class GLShader {
@@ -88,10 +85,11 @@ public abstract class GLShader {
         GL20.glBindAttribLocation(programID, attribute, variableName);
     }
 
-    private static int loadShader(String file, int type) {
+    private static int loadShader(String path, int type) {
         StringBuilder shaderSource = new StringBuilder();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            InputStream in = Class.class.getResourceAsStream(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
             while ((line = reader.readLine()) != null) {
                 shaderSource.append(line).append("\n");

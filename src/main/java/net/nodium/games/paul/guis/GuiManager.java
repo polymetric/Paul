@@ -19,7 +19,7 @@ public class GuiManager {
     }
 
     private void init() {
-        guis.add(new GuiTexture(new Texture("src/main/resources/textures/face.png"), new Vector2f(0, 0), .25f));
+        guis.add(new GuiTexture(new Texture("/textures/face.png"), new Vector2f(-.75f, .75f), .25f));
     }
 
     public void render() {

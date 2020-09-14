@@ -1,5 +1,6 @@
 package net.nodium.games.paul.entities;
 
+import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.input.MouseHandler;
 import net.nodium.games.paul.sound.SoundListener;
@@ -8,13 +9,11 @@ import org.joml.Vector3f;
 public class Camera {
     private MouseHandler mouseHandler;
     private SoundListener soundListener;
-    private EntityCamera entityCamera;
+    public EntityCamera entityCamera;
 
     public Vector3f pos;
-    public float pitch;
-    public float yaw;
-
-    public float cameraAccel = 100F;
+    public float pitch = 0;
+    public float yaw = 0;
 
     public boolean isMovingFwd = false;
     public boolean isMovingBwd = false;
@@ -23,23 +22,12 @@ public class Camera {
     public boolean isMovingUp = false;
     public boolean isMovingDown = false;
 
-    public Camera(MouseHandler mouseHandler) {
-        this(mouseHandler, 0, 0, 0);
-    }
-
-    public Camera(MouseHandler mouseHandler, float x, float y, float z) {
-        this(mouseHandler, x, y, z, 0, 0);
-    }
-
-    public Camera(MouseHandler mouseHandler, float x, float y, float z, float pitch, float yaw) {
+    public Camera(EntityHandler entityHandler, MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
 //        this.soundListener = new SoundListener();
 
-        this.entityCamera = new EntityCamera(x, y, z);
+        this.entityCamera = new EntityCamera(entityHandler);
         this.pos = entityCamera.pos;
-
-        this.pitch = pitch;
-        this.yaw = yaw;
     }
 
     public void tick() {
@@ -65,36 +53,22 @@ public class Camera {
 
     private void move() {
         if (isMovingFwd) {
-            moveHorizAngle(yaw);
+            entityCamera.moveHorizAngle(yaw);
         }
         if (isMovingBwd) {
-            moveHorizAngle(yaw + 180);
+            entityCamera.moveHorizAngle(yaw + 180);
         }
         if (isMovingRight) {
-            moveHorizAngle(yaw + 90);
+            entityCamera.moveHorizAngle(yaw + 90);
         }
         if (isMovingLeft) {
-            moveHorizAngle(yaw - 90);
+            entityCamera.moveHorizAngle(yaw - 90);
         }
         if (isMovingUp) {
-//            pos.y += speed;
-            entityCamera.posVel.y += cameraAccel * getLogicDelta();
+            entityCamera.posVel.y += entityCamera.accel * entityCamera.getLogicDelta();
         }
         if (isMovingDown) {
-//            pos.y -= speed;
-            entityCamera.posVel.y -= cameraAccel * getLogicDelta();
+            entityCamera.posVel.y -= entityCamera.accel * entityCamera.getLogicDelta();
         }
-    }
-
-    private void moveHorizAngle(double angle) {
-        angle = angle - 90;
-//        pos.x += speed * Math.cos(Math.toRadians(angle));
-//        pos.z += speed * Math.sin(Math.toRadians(angle));
-        entityCamera.posVel.x += cameraAccel * Math.cos(Math.toRadians(angle)) * getLogicDelta();
-        entityCamera.posVel.z += cameraAccel * Math.sin(Math.toRadians(angle)) * getLogicDelta();
-    }
-
-    public double getLogicDelta() {
-        return Launcher.game.gameLoop.getLogicDelta();
     }
 }

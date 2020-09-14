@@ -82,7 +82,7 @@ public class ModelOofCube extends ModelEntity {
                 23, 21, 22
         };
 
-        Texture textureTest = new Texture("src/main/resources/textures/face.png");
+        Texture textureTest = new Texture("/textures/face.png");
 
         super.model = entityRenderer.assetLoader.loadToVAO(vertices, indices, textureCoords, textureTest, entityRenderer.shader);
     }

@@ -12,7 +12,6 @@ public class Game {
     public KeyHandler keyHandler;
     public MouseHandler mouseHandler;
     public Display display;
-    public GLShaderBase shader;
     public Renderer renderer;
     public EntityHandler entityHandler;
     public AssetLoader assetLoader;
@@ -28,13 +27,13 @@ public class Game {
         mouseHandler = new MouseHandler(this, display);
 
         assetLoader = new AssetLoader();
-        shader = new GLShaderBase();
-        camera = new Camera(mouseHandler);
-        renderer = new Renderer(this, display, shader, camera);
+        renderer = new Renderer(this, display);
 
         gameLoop = new GameLoop(this);
         entityHandler = new EntityHandler(this);
         guiManager = new GuiManager(assetLoader);
+
+        camera = new Camera(entityHandler, mouseHandler);
     }
 
     public void start() {
@@ -44,7 +43,7 @@ public class Game {
     }
 
     private void init() {
-        renderer.init();
+        renderer.init(display, camera);
         entityHandler.init();
 
         // test stuff

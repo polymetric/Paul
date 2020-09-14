@@ -3,6 +3,8 @@ package net.nodium.games.paul.gl.textures;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -23,7 +25,9 @@ public class Texture {
     private int load(String path) {
         int[] pixels = null;
         try {
-            BufferedImage image = ImageIO.read(new FileInputStream(path));
+            path = path;
+            InputStream in = Class.class.getResourceAsStream(path);
+            BufferedImage image = ImageIO.read(in);
             width = image.getWidth();
             height = image.getHeight();
             pixels = new int[width * height];

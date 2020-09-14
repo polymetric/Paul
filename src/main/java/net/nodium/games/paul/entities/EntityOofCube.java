@@ -1,7 +1,6 @@
 package net.nodium.games.paul.entities;
 
 import net.nodium.games.paul.EntityHandler;
-import net.nodium.games.paul.entities.renderers.RenderOofCube;
 
 import java.util.Random;
 
@@ -9,12 +8,8 @@ public class EntityOofCube extends Entity {
     public float brrAmount = 0.0F;
     private Random rand;
 
-    public EntityOofCube(float x, float y, float z) {
-        super(x, y, z);
-    }
-
-    public EntityOofCube(float x, float y, float z, float rotX, float rotY, float rotZ) {
-        super(x, y, z, rotX, rotY, rotZ);
+    public EntityOofCube(EntityHandler entityHandler) {
+        super(entityHandler);
     }
 
     @Override
@@ -22,17 +17,17 @@ public class EntityOofCube extends Entity {
 //        enableGravity = false;
 
         rand = new Random();
-        rotVel.y = temp() * 100;
-        rotVel.x = temp() * 40;
-        rotVel.z = temp() * 40;
+        rotVel.y = (rand.nextFloat() - rand.nextFloat()) * 100;
+        rotVel.x = (rand.nextFloat() - rand.nextFloat()) * 40;
+        rotVel.z = (rand.nextFloat() - rand.nextFloat()) * 40;
 
-        posVel.x = temp() * 100;
-        posVel.y = temp() * 100;
-        posVel.z = temp() * 100;
+        posVel.x = (rand.nextFloat() - rand.nextFloat()) * 10;
+        posVel.y = (rand.nextFloat() - rand.nextFloat()) * 10;
+        posVel.z = (rand.nextFloat() - rand.nextFloat()) * 10;
     }
 
     public void tick() {
-        brrAmount += 0.01F * getDeltaTime();
+        brrAmount += 0.01F * getLogicDelta();
 
         if (brrAmount >= 0.1F) {
             brrAmount = 0.1F;
@@ -41,11 +36,7 @@ public class EntityOofCube extends Entity {
         super.tick();
 
         if (pos.y < -100) {
-//            this.setDead();
+            this.setDead();
         }
-    }
-
-    private float temp() {
-        return (rand.nextFloat() - .5F) * 2F;
     }
 }

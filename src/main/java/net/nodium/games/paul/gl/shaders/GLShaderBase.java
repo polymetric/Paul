@@ -5,8 +5,8 @@ import net.nodium.games.paul.math.MathUtils;
 import org.joml.Matrix4f;
 
 public class GLShaderBase extends GLShader {
-    private static final String VSH_PATH = "src/main/java/net/nodium/games/paul/gl/shaders/base.vsh";
-    private static final String FSH_PATH = "src/main/java/net/nodium/games/paul/gl/shaders/base.fsh";
+    private static final String VSH_PATH = "/shaders/base.vsh";
+    private static final String FSH_PATH = "/shaders/base.fsh";
 
     private int locTransMatrix;
     private int locProjMatrix;

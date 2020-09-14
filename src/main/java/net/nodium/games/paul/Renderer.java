@@ -20,7 +20,7 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 public class Renderer {
     private Game game;
     private Display display;
-    private GLShaderBase shader;
+    private GLShaderBase shader = new GLShaderBase();
     private Camera camera;
 
     private HashMap<Class, RenderEntity> entityRendererMap;
@@ -32,11 +32,9 @@ public class Renderer {
 
     private Vector3f bg = new Vector3f(0, 0, 0);
 
-    public Renderer(Game game, Display display, GLShaderBase shader, Camera camera) {
+    public Renderer(Game game, Display display) {
         this.game = game;
         this.display = display;
-        this.shader = shader;
-        this.camera = camera;
 
         entityRendererMap = new HashMap();
         initEntityRenderMap();
@@ -47,8 +45,9 @@ public class Renderer {
         shader.stop();
     }
 
-    public void init() {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    public void init(Display display, Camera camera) {
+        this.display = display;
+        this.camera = camera;
     }
 
     public void render() {
@@ -73,8 +72,10 @@ public class Renderer {
 
         // render stuff here
         for (Entity e : game.entityHandler.entities) {
-            RenderEntity renderEntity = getEntityRenderer(e);
-            renderEntity.render(e, renderEntity.modelEntity);
+            if (e.isRenderable()) {
+                RenderEntity renderEntity = getEntityRenderer(e);
+                renderEntity.render(e, renderEntity.modelEntity);
+            }
         }
 
         game.guiManager.render();

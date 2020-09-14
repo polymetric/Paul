@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class EntityHandler {
-    private Game game;
+    public Game game;
 
     public ArrayList<Entity> entities = new ArrayList<Entity>();
 
@@ -26,7 +26,7 @@ public class EntityHandler {
     public void tick() {
         if (game.gameLoop.ticks % 1 == 0) {
             for (int i = 0; i < 2; i++) {
-                entities.add(new EntityOofCube(0, 0, 0));
+                new EntityOofCube(this);
             }
         }
 

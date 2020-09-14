@@ -1,5 +1,6 @@
 package net.nodium.games.paul.sound;
 
+import com.google.common.io.ByteStreams;
 import net.nodium.games.paul.gl.GLUtils;
 import org.lwjgl.stb.STBVorbisInfo;
 import org.lwjgl.system.MemoryStack;
@@ -58,7 +59,10 @@ public class SoundBuffer {
     private ShortBuffer readVorbis(String resource, int bufferSize, STBVorbisInfo info) throws Exception {
         try (MemoryStack stack = MemoryStack.stackPush()) {
 //            vorbis = Utils.ioResourceToByteBuffer(resource, bufferSize);
-            byte[] file = Files.readAllBytes(Paths.get(resource));
+//            byte[] file = Files.readAllBytes(Paths.get(resource));
+
+            byte[] file = ByteStreams.toByteArray(Class.class.getResourceAsStream(resource));
+
             vorbis = GLUtils.storeDataInByteBuffer(file);
             IntBuffer error = stack.mallocInt(1);
             long decoder = stb_vorbis_open_memory(vorbis, error, null);

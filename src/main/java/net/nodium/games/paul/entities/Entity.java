@@ -1,26 +1,29 @@
 package net.nodium.games.paul.entities;
 
+import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.Launcher;
 import org.joml.Vector3f;
 
 public class Entity {
     // positions are in meters, velocities are in m/s, rotation velocities are in degrees/s
     // velocities are tickrate agnostic
+    public EntityHandler entityHandler;
 
-    public Vector3f pos = new Vector3f();
-    public Vector3f posPrev;
+    public Vector3f pos = new Vector3f(0, 0, 0);
+    public Vector3f posPrev = pos;
     public Vector3f posVel = new Vector3f(0, 0, 0);
-    public Vector3f posVis;
+    public Vector3f posVis = pos;
 
-    public Vector3f rot = new Vector3f();
-    public Vector3f rotPrev;
+    public Vector3f rot = new Vector3f(0, 0, 0);
+    public Vector3f rotPrev = rot;
     public Vector3f rotVel = new Vector3f(0, 0, 0);
-    public Vector3f rotVis;
+    public Vector3f rotVis = rot;
 
     public float gravityAccel = 9.8F;
-    public float airResistanceDecel = 0.80F;
+    public float airResistanceDecel = 0.00F;
     public float posVelMax = 10F;
     public float rotVelMax = 360F;
+    public float accel = 100F;
 
     public boolean enableGravity = true;
     public boolean enableVelocity = true;
@@ -28,23 +31,10 @@ public class Entity {
 
     private boolean isDead = false;
 
-    public Entity(float x, float y, float z) {
-        this(x, y, z, 0.0F, 0.0F, 0.0F);
-    }
+    public Entity(EntityHandler entityHandler) {
+        this.entityHandler = entityHandler;
 
-    public Entity(float x, float y, float z, float rotX, float rotY, float rotZ) {
-        pos.x = x;
-        pos.y = y;
-        pos.z = z;
-        rot.x = rotX;
-        rot.y = rotY;
-        rot.z = rotZ;
-
-        posPrev = this.pos;
-        rotPrev = this.rot;
-
-        posVis = this.pos;
-        rotVis = this.rot;
+        entityHandler.entities.add(this);
 
         this.init();
     }
@@ -60,17 +50,21 @@ public class Entity {
     private void tickVelocity() {
         if (!enableVelocity) return;
 
-        posVel.x = posVel.x > posVelMax ? posVelMax : posVel.x;
-        posVel.y = posVel.y > posVelMax ? posVelMax : posVel.y;
-        posVel.z = posVel.z > posVelMax ? posVelMax : posVel.z;
+//        posVel.x = posVel.x > posVelMax ? posVelMax : posVel.x;
+//        posVel.y = posVel.y > posVelMax ? posVelMax : posVel.y;
+//        posVel.z = posVel.z > posVelMax ? posVelMax : posVel.z;
+//
+//        posVel.x = posVel.x < -posVelMax ? -posVelMax : posVel.x;
+//        posVel.y = posVel.y < -posVelMax ? -posVelMax : posVel.y;
+//        posVel.z = posVel.z < -posVelMax ? -posVelMax : posVel.z;
 
-        pos.x += posVel.x * getDeltaTime();
-        pos.y += posVel.y * getDeltaTime();
-        pos.z += posVel.z * getDeltaTime();
+        pos.x += posVel.x * getLogicDelta();
+        pos.y += posVel.y * getLogicDelta();
+        pos.z += posVel.z * getLogicDelta();
 
-        rot.x += rotVel.x * getDeltaTime();
-        rot.y += rotVel.y * getDeltaTime();
-        rot.z += rotVel.z * getDeltaTime();
+        rot.x += rotVel.x * getLogicDelta();
+        rot.y += rotVel.y * getLogicDelta();
+        rot.z += rotVel.z * getLogicDelta();
     }
 
     private void tickGravity() {
@@ -89,6 +83,12 @@ public class Entity {
         posVel.z -= posVel.z * airResistanceDecel * delta;
     }
 
+    public void moveHorizAngle(double angle) {
+        angle = angle - 90;
+        posVel.x += accel * Math.cos(Math.toRadians(angle)) * getLogicDelta();
+        posVel.z += accel * Math.sin(Math.toRadians(angle)) * getLogicDelta();
+    }
+
     public void setDead() {
         isDead = true;
     }
@@ -97,7 +97,11 @@ public class Entity {
         return isDead;
     }
 
-    public double getDeltaTime() {
-        return Launcher.game.gameLoop.getLogicDelta();
+    public double getLogicDelta() {
+        return entityHandler.game.gameLoop.getLogicDelta();
+    }
+
+    public boolean isRenderable() {
+        return true;
     }
 }

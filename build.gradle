@@ -12,6 +12,8 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application.
     id 'application'
+
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
 group 'net.nodium.games.paul'
@@ -48,6 +50,8 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
 
+    implementation("com.google.guava:guava:29.0-jre")
+
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
     implementation "org.lwjgl:lwjgl"
@@ -62,6 +66,8 @@ dependencies {
     implementation "org.lwjgl:lwjgl-par"
     implementation "org.lwjgl:lwjgl-stb"
     implementation "org.lwjgl:lwjgl-vulkan"
+    implementation "org.joml:joml:${jomlVersion}"
+
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-assimp::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-bgfx::$lwjglNatives"
@@ -74,10 +80,29 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-par::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     if (lwjglNatives == "natives-macos") runtimeOnly "org.lwjgl:lwjgl-vulkan::$lwjglNatives"
-    implementation "org.joml:joml:${jomlVersion}"
 }
 
 application {
     // Define the main class for the application.
     mainClassName = 'net.nodium.games.paul.Launcher'
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.nodium.games.paul.Launcher'
+    }
+
+//    sourceSets.main.resources { srcDirs = ["src/main/resources", "src/main/java"]; exclude "**/*.java" }
+//    sourceSets.main.resources.includes = [ "**/*.vsh", "**/*.fsh" ]
+//    sourceSets.main.resources.includes = [ "**/*.vsh", "**/*.fsh" ]
+}
+
+//shadowJar {
+//    manifest {
+//        attributes 'Main-Class': 'net.nodium.games.paul.Launcher'
+//    }
+//
+//    include '*.vsh'
+//    include '*.fsh'
+//    include '*.jar'
+//}
