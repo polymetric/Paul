@@ -6,7 +6,7 @@ import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.math.MathUtils;
 import org.joml.Vector3f;
 
-public class Entity {
+public abstract class Entity {
     // positions are in meters, velocities are in m/s, rotation velocities are in degrees/s
     // velocities are tickrate agnostic
     public EntityHandler entityHandler;

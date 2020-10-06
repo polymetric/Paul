@@ -9,53 +9,106 @@ public class ModelCube extends ModelEntity {
         super(entityRenderer);
 
         float[] vertices = {
-                0,     0,      0,       // 0
-                width, 0,      0,       // 1
-                width, depth,  0,       // 2
-                0,     depth,  0,       // 3
+              //width, height, depth,
+                // face Xa
+                width, 0,      0,
+                0,     0,      0,
+                0,     height, 0,
+                width, height, 0,
 
-                0,     0,      height,  // 4
-                width, 0,      height,  // 5
-                width, depth,  height,  // 6
-                0,     depth,  height,  // 7
-        };
+                // face Za
+                0,     0,      0,
+                0,     0,      depth,
+                0,     height, depth,
+                0,     height, 0,
 
-        float[] textureCoords = {
-                0, 1,
-                1, 1,
-                1, 0,
-                0, 0,
+                // face Xb
+                0,     0,      depth,
+                width, 0,      depth,
+                width, height, depth,
+                0,     height, depth,
 
-                0, 1,
-                1, 1,
-                1, 0,
-                0, 0,
+                // face Zb
+                width, 0,      depth,
+                width, 0,      0,
+                width, height, 0,
+                width, height, depth,
+
+                // face Ya
+                width, 0,      depth,
+                0,     0,      depth,
+                0,     0,      0,
+                width, 0,      0,
+
+                // face Yb
+                width, height, 0,
+                0,     height, 0,
+                0,     height, depth,
+                width, height, depth,
         };
 
         int[] indices = {
                 // face Xa
-                  0,   1,   4,
-                  1,   4,   5,
-
-                // face Yb
-                  1,   2,   5,
-                  2,   5,   6,
-
-                // face Xb
-                  2,   3,   6,
-                  3,   6,   7,
-
-                // face Ya
-                  3,   0,   7,
-                  0,   7,   4,
+                0,  1,  3,
+                1,  2,  3,
 
                 // face Za
-                  3,   2,   0,
-                  0,   1,   2,
+                4,  5,  7,
+                5,  6,  7,
+
+                // face Xb
+                8,  9, 11,
+                9, 10, 11,
 
                 // face Zb
-                  4,   5,   7,
-                  5,   6,   7
+                12, 13, 15,
+                13, 14, 15,
+
+                // face Ya
+                16, 17, 19,
+                17, 18, 19,
+
+                // face Yb
+                20, 21, 23,
+                21, 22, 23,
+        };
+
+        float[] textureCoords = {
+                // face Xa
+                0, 1,
+                1, 1,
+                1, 0,
+                0, 0,
+
+                // face Za
+                0, 1,
+                1, 1,
+                1, 0,
+                0, 0,
+
+                // face Xb
+                0, 1,
+                1, 1,
+                1, 0,
+                0, 0,
+
+                // face Zb
+                0, 1,
+                1, 1,
+                1, 0,
+                0, 0,
+
+                // face Ya
+                0, 1,
+                1, 1,
+                1, 0,
+                0, 0,
+
+                // face Yb
+                0, 1,
+                1, 1,
+                1, 0,
+                0, 0,
         };
 
         Texture textureTest = new Texture("/textures/face.png");
