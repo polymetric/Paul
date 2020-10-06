@@ -65,4 +65,8 @@ public class EntityOofCube extends Entity {
 //            this.setDead();
         }
     }
+
+    public void jump() {
+        this.posVel.y += 5;
+    }
 }

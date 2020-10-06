@@ -4,6 +4,7 @@ import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.GameLoop;
 import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.math.MathUtils;
+import net.nodium.games.paul.phys.Hitbox;
 import org.joml.Vector3f;
 
 public abstract class Entity {
@@ -20,6 +21,8 @@ public abstract class Entity {
     public Vector3f rotPrev = rot;
     public Vector3f rotVel = new Vector3f(0, 0, 0);
     public Vector3f rotVis = rot;
+
+    public Hitbox hitbox = new Hitbox();
 
     public int health = 1;
 
@@ -58,14 +61,18 @@ public abstract class Entity {
     private void tickVelocity() {
         if (!enableVelocity) return;
 
-//        posVel.x = posVel.x > posVelMax ? posVelMax : posVel.x;
-//        posVel.y = posVel.y > posVelMax ? posVelMax : posVel.y;
-//        posVel.z = posVel.z > posVelMax ? posVelMax : posVel.z;
-//
-//        posVel.x = posVel.x < -posVelMax ? -posVelMax : posVel.x;
-//        posVel.y = posVel.y < -posVelMax ? -posVelMax : posVel.y;
-//        posVel.z = posVel.z < -posVelMax ? -posVelMax : posVel.z;
+        // velocity limits
+        posVel.x = posVel.x > posVelMax ? posVelMax : posVel.x;
+        posVel.y = posVel.y > posVelMax ? posVelMax : posVel.y;
+        posVel.z = posVel.z > posVelMax ? posVelMax : posVel.z;
 
+        posVel.x = posVel.x < -posVelMax ? -posVelMax : posVel.x;
+        posVel.y = posVel.y < -posVelMax ? -posVelMax : posVel.y;
+        posVel.z = posVel.z < -posVelMax ? -posVelMax : posVel.z;
+
+        // add velocity to position
+        // this is tickrate agnostic, which means the velocity
+        // is specified in units per second
         pos.x += posVel.x * getLogicDelta();
         pos.y += posVel.y * getLogicDelta();
         pos.z += posVel.z * getLogicDelta();

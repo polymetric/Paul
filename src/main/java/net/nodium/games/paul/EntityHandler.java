@@ -1,6 +1,7 @@
 package net.nodium.games.paul;
 
 import net.nodium.games.paul.entities.Entity;
+import net.nodium.games.paul.entities.EntityGround;
 import net.nodium.games.paul.entities.EntityOofCube;
 
 import java.util.ArrayList;
@@ -17,7 +18,9 @@ public class EntityHandler {
     }
 
     public void init() {
-        new EntityOofCube(this).setPos(0, 0, 0);
+        new EntityGround(this);
+
+//        new EntityOofCube(this).setPos(0, 0, 0);
 
 //        for (int i = 0; i < 10000; i++) {
 //            new EntityOofCube(this)

@@ -2,8 +2,10 @@ package net.nodium.games.paul;
 
 import net.nodium.games.paul.entities.Camera;
 import net.nodium.games.paul.entities.Entity;
+import net.nodium.games.paul.entities.EntityGround;
 import net.nodium.games.paul.entities.EntityOofCube;
 import net.nodium.games.paul.entities.renderers.RenderEntity;
+import net.nodium.games.paul.entities.renderers.RenderGround;
 import net.nodium.games.paul.entities.renderers.RenderOofCube;
 import net.nodium.games.paul.gl.*;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
@@ -108,6 +110,7 @@ public class Renderer {
 
     private void initEntityRenderMap() {
         entityRendererMap.put(EntityOofCube.class, new RenderOofCube(game.assetLoader, shader));
+        entityRendererMap.put(EntityGround.class, new RenderGround(game.assetLoader, shader));
     }
 
     private RenderEntity getEntityRenderer(Entity entity) {
