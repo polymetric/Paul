@@ -1,6 +1,7 @@
 package net.nodium.games.paul.gl.shaders;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
@@ -38,6 +39,10 @@ public abstract class GLShader {
 
     protected void loadFloat(int location, float value) {
         GL20.glUniform1f(location, value);
+    }
+
+    protected void loadVector2f(int location, Vector2f vector) {
+        GL20.glUniform2f(location, vector.x, vector.y);
     }
 
     protected void loadVector3f(int location, Vector3f vector) {

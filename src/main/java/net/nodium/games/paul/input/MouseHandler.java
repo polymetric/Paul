@@ -26,6 +26,8 @@ public class MouseHandler {
     }
 
     public void tick() {
+//        display.disableCursor();
+
         DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
         DoubleBuffer y = BufferUtils.createDoubleBuffer(1);
 
@@ -36,7 +38,7 @@ public class MouseHandler {
         mouseY = (int) y.get();
 
         deltaX = mouseX - display.getWidth() / 2;
-        deltaY = mouseY - display.getWidth() / 2;
+        deltaY = mouseY - display.getHeight() / 2;
 
         prevX = mouseX;
         prevY = mouseY;

@@ -91,6 +91,16 @@ public class Display {
         GL.createCapabilities();
     }
 
+    public Display disableCursor() {
+        glfwSetInputMode(this.getWindowID(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        return this;
+    }
+
+    public Display enableCursor() {
+        glfwSetInputMode(this.getWindowID(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        return this;
+    }
+
     public long getWindowID() {
         return windowID;
     }

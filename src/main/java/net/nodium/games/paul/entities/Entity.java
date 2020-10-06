@@ -1,7 +1,9 @@
 package net.nodium.games.paul.entities;
 
 import net.nodium.games.paul.EntityHandler;
+import net.nodium.games.paul.GameLoop;
 import net.nodium.games.paul.Launcher;
+import net.nodium.games.paul.math.MathUtils;
 import org.joml.Vector3f;
 
 public class Entity {
@@ -18,6 +20,8 @@ public class Entity {
     public Vector3f rotPrev = rot;
     public Vector3f rotVel = new Vector3f(0, 0, 0);
     public Vector3f rotVis = rot;
+
+    public int health = 1;
 
     public float gravityAccel = 9.8F;
     public float airResistanceDecel = 0.00F;
@@ -45,6 +49,10 @@ public class Entity {
         tickVelocity();
         tickGravity();
         tickAirResistance();
+
+        if (health <= 0) {
+            setDead();
+        }
     }
 
     private void tickVelocity() {
@@ -111,6 +119,22 @@ public class Entity {
         return this;
     }
 
+    public Entity setPosVel(float x, float y, float z) {
+        this.posVel.x = x;
+        this.posVel.y = y;
+        this.posVel.z = z;
+
+        return this;
+    }
+
+    public Entity setRotVel(float x, float y, float z) {
+        this.rotVel.x = x;
+        this.rotVel.y = y;
+        this.rotVel.z = z;
+
+        return this;
+    }
+
     // getters
 
     public boolean isDead() {
@@ -123,5 +147,12 @@ public class Entity {
 
     public boolean isRenderable() {
         return true;
+    }
+
+    public boolean isWithinRadiusOf(Entity entity, float radius) {
+//        System.out.println(MathUtils.xyzDistance(this.pos, entity.pos));
+//        System.out.println(radius);
+//        System.out.println(MathUtils.xyzDistance(this.pos, entity.pos) < radius);
+        return MathUtils.xyzDistance(this.pos, entity.pos) < radius;
     }
 }

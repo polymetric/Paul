@@ -21,7 +21,7 @@ public class Game {
     public Game(String[] args) {
         keyHandler = new KeyHandler(this);
 
-        display = new Display(800, 800, "Paul");
+        display = new Display(1600, 864, "Paul");
         display.setKeyHandler(keyHandler);
         display.createWindow();
         mouseHandler = new MouseHandler(this, display);
@@ -31,7 +31,7 @@ public class Game {
 
         gameLoop = new GameLoop(this);
         entityHandler = new EntityHandler(this);
-        guiManager = new GuiManager(assetLoader);
+        guiManager = new GuiManager(assetLoader, display);
 
         camera = new Camera(entityHandler, mouseHandler);
     }

@@ -62,6 +62,6 @@ public class GameLoop {
     }
 
     public double getLogicDelta() {
-        return logicDelta / NANOS_PER_SECOND;
+        return ticks < 1 ? 1.0F / TARGET_TPS : logicDelta / NANOS_PER_SECOND;
     }
 }

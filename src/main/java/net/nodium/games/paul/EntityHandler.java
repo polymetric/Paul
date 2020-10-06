@@ -8,6 +8,7 @@ import java.util.Random;
 
 public class EntityHandler {
     public Game game;
+    private Random rand = new Random();
 
     public ArrayList<Entity> entities = new ArrayList<Entity>();
 
@@ -16,19 +17,27 @@ public class EntityHandler {
     }
 
     public void init() {
-//        new EntityOofCube(1, 0, 1);
-        new EntityOofCube(this);
+        new EntityOofCube(this).setPos(0, 0, 0);
 
-//        for (int i = 0; i < 1000; i++) {
-//            new EntityOofCube(temp(), 0, temp());
+//        for (int i = 0; i < 10000; i++) {
+//            new EntityOofCube(this)
+//                    .setPos(
+//                            (rand.nextFloat() - rand.nextFloat()) * 1000,
+//                            (rand.nextFloat() - rand.nextFloat()) * 1000,
+//                            (rand.nextFloat() - rand.nextFloat()) * 1000
+//                    );
 //        }
     }
 
     public void tick() {
 //        if (game.gameLoop.ticks % 1 == 0) {
-//            for (int i = 0; i < 2; i++) {
+//            for (int i = 0; i < 10; i++) {
 //                new EntityOofCube(this)
-//                        .setPos(0, 0, 0);
+//                        .setPos(
+//                                (rand.nextFloat() - rand.nextFloat()) * 1000,
+//                                (rand.nextFloat() - rand.nextFloat()) * 1000,
+//                                (rand.nextFloat() - rand.nextFloat()) * 1000
+//                        );
 //            }
 //        }
 

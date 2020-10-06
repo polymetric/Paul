@@ -54,11 +54,11 @@ public class Renderer {
         GL11.glEnable(GL_DEPTH_TEST);
 
         // set the clear color
-//        glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         double mult = 5D;
-        bg.x = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360)) + 1) / 2;
-        bg.y = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360) + (Math.PI * 2 / 3)) + 1) / 2;
-        bg.z = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360) + (Math.PI * 4 / 3)) + 1) / 2;
+//        bg.x = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360)) + 1) / 2;
+//        bg.y = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360) + (Math.PI * 2 / 3)) + 1) / 2;
+//        bg.z = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360) + (Math.PI * 4 / 3)) + 1) / 2;
         glClearColor(bg.x, bg.y, bg.z, 0.0f);
 
         // clear the framebuffer

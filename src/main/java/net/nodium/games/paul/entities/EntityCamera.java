@@ -20,7 +20,8 @@ public class EntityCamera extends Entity {
     @Override
     public void tick() {
         if (isFiringLazor) {
-
+            isFiringLazor = false;
+            System.out.println("lazor");
         }
 
         super.tick();

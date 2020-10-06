@@ -3,6 +3,7 @@ package net.nodium.games.paul.entities;
 import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.input.MouseHandler;
 import net.nodium.games.paul.sound.SoundListener;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Camera {
@@ -13,6 +14,11 @@ public class Camera {
     public Vector3f pos;
     public float pitch = 0;
     public float yaw = 0;
+    public float roll = 0;
+
+    public float pitchVel = 0;
+    public float yawVel = 0;
+    public float rollVel = 0;
 
     public boolean isMovingFwd = false;
     public boolean isMovingBwd = false;
@@ -27,18 +33,32 @@ public class Camera {
 
         this.entityCamera = new EntityCamera(entityHandler);
         this.pos = entityCamera.pos;
+
+//        this.yawVel = 1.5f;
+//        this.pitchVel = 1.5f;
+//        this.rollVel = 1.5f;
+
+//        entityCamera.enableAirResistance = false;
+//        entityCamera.setPosVel(5, 0, 0);
     }
 
     public void tick() {
         entityCamera.tick();
-        move();
+        tickVelocity();
+        handleKeyMove();
+    }
+
+    public void tickVelocity() {
+        this.pitch += pitchVel * entityCamera.getLogicDelta();
+        this.yaw += yawVel * entityCamera.getLogicDelta();
+        this.roll += rollVel * entityCamera.getLogicDelta();
     }
 
     public void render() {
-        handleMouse();
+        handleMouseLook();
     }
 
-    private void handleMouse() {
+    private void handleMouseLook() {
         pitch += mouseHandler.deltaY * 0.15;
         yaw += mouseHandler.deltaX * 0.15;
 
@@ -50,7 +70,7 @@ public class Camera {
         }
     }
 
-    private void move() {
+    private void handleKeyMove() {
         if (isMovingFwd) {
             entityCamera.moveHorizAngle(yaw);
         }

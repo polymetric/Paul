@@ -8,12 +8,12 @@ public class GuiTexture {
 
     public Texture texture;
     public Vector2f pos = new Vector2f(0, 0);
-    public float scale = 0;
+    public float scale = 1;
 
     public GuiTexture(GuiManager guiManager) {
         this.guiManager = guiManager;
 
-        guiManager.guis.add(this);
+        guiManager.add(this);
     }
 
     // setters
