@@ -26,7 +26,12 @@ public class MouseHandler {
     }
 
     public void tick() {
-//        display.disableCursor();
+        if (game.isPaused()) {
+            display.enableCursor();
+            return;
+        }
+
+        display.disableCursor();
 
         DoubleBuffer x = BufferUtils.createDoubleBuffer(1);
         DoubleBuffer y = BufferUtils.createDoubleBuffer(1);

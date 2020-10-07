@@ -2,7 +2,6 @@ package net.nodium.games.paul;
 
 import net.nodium.games.paul.entities.Camera;
 import net.nodium.games.paul.gl.Display;
-import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.guis.GuiManager;
 import net.nodium.games.paul.input.KeyHandler;
 import net.nodium.games.paul.input.MouseHandler;
@@ -17,6 +16,8 @@ public class Game {
     public AssetLoader assetLoader;
     public Camera camera;
     public GuiManager guiManager;
+
+    private boolean isPaused = false;
 
     public Game(String[] args) {
         keyHandler = new KeyHandler(this);
@@ -57,12 +58,23 @@ public class Game {
 
     public void tick() {
         mouseHandler.tick();
+
+        if (isPaused()) return;
+
         camera.tick();
         entityHandler.tick();
     }
 
     public void render() {
         renderer.render();
+    }
+
+    public void togglePause() {
+        isPaused = !isPaused;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
     }
 
     private void cleanup() {
