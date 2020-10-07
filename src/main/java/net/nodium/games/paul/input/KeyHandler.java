@@ -21,12 +21,18 @@ public class KeyHandler implements GLFWKeyCallbackI {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) { game.togglePause(); }
 
         // movement
+//        if (key == GLFW_KEY_W) { game.camera.isMovingFwd = action == GLFW_RELEASE ? false : true; }
+//        if (key == GLFW_KEY_S) { game.camera.isMovingBwd = action == GLFW_RELEASE ? false : true; }
+//        if (key == GLFW_KEY_A) { game.camera.isMovingLeft = action == GLFW_RELEASE ? false : true; }
+//        if (key == GLFW_KEY_D) { game.camera.isMovingRight = action == GLFW_RELEASE ? false : true; }
+//        if (key == GLFW_KEY_SPACE) { game.camera.isMovingUp = action == GLFW_RELEASE ? false : true; }
+//        if (key == GLFW_KEY_LEFT_SHIFT) { game.camera.isMovingDown = action == GLFW_RELEASE ? false : true; }
+
         if (key == GLFW_KEY_W) { game.camera.isMovingFwd = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_S) { game.camera.isMovingBwd = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_A) { game.camera.isMovingLeft = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_D) { game.camera.isMovingRight = action == GLFW_RELEASE ? false : true; }
-        if (key == GLFW_KEY_SPACE) { game.camera.isMovingUp = action == GLFW_RELEASE ? false : true; }
-        if (key == GLFW_KEY_LEFT_SHIFT) { game.camera.isMovingDown = action == GLFW_RELEASE ? false : true; }
+        if (key == GLFW_KEY_SPACE) { game.camera.entityCamera.jump(); }
 
         // fire lazor
         if (key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS ) { game.camera.entityCamera.isFiringLazor = true; }

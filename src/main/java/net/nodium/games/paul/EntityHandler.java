@@ -18,18 +18,20 @@ public class EntityHandler {
     }
 
     public void init() {
+        game.camera.entityCamera.setPos(0, 2, 0);
+
         new EntityGround(this).setPos(0, 0, 0);
 
         new EntityOofCube(this).setPos(0, 2, 0);
 
-//        for (int i = 0; i < 10000; i++) {
-//            new EntityOofCube(this)
-//                    .setPos(
-//                            (rand.nextFloat() - rand.nextFloat()) * 1000,
-//                            (rand.nextFloat() - rand.nextFloat()) * 1000,
-//                            (rand.nextFloat() - rand.nextFloat()) * 1000
-//                    );
-//        }
+        for (int i = 0; i < 100; i++) {
+            new EntityOofCube(this)
+                    .setPos(
+                            (rand.nextFloat() - rand.nextFloat()) * 5,
+                            rand.nextFloat() * 10000 + 10,
+                            (rand.nextFloat() - rand.nextFloat()) * 5
+                    );
+        }
     }
 
     public void tick() {

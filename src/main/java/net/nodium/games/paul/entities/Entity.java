@@ -27,6 +27,7 @@ public abstract class Entity {
 
     public float gravityAccel = 9.8F;
     public float airResistanceDecel = 0.00F;
+    public float frictionDecel = 5.00F;
     public float posVelMax = 1000F;
     public float rotVelMax = 360F;
     public float speed = 100F;
@@ -34,9 +35,11 @@ public abstract class Entity {
     public boolean enableGravity = true;
     public boolean enableVelocity = true;
     public boolean enableAirResistance = true;
+    public boolean enableFriction = true;
 
     private boolean isDead = false;
     private boolean onGround = false;
+    private boolean isColliding = false;
 
     public Entity(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
@@ -49,13 +52,19 @@ public abstract class Entity {
     public void init() {}
 
     public void tick() {
+        tickCollisions();
+
         tickVelocity();
         tickGravity();
         tickAirResistance();
-        tickCollisions();
+        tickFriction();
 
         if (health <= 0) {
-            setDead();
+            kill();
+        }
+
+        if (pos.y < -100) {
+            this.kill();
         }
     }
 
@@ -99,15 +108,28 @@ public abstract class Entity {
         posVel.z -= posVel.z * airResistanceDecel * delta;
     }
 
+    private void tickFriction() {
+        if (!enableFriction) return;
+        if (!onGround()) return;
+
+        double delta = getLogicDelta();
+
+        posVel.x -= posVel.x * frictionDecel * delta;
+        posVel.y -= posVel.y * frictionDecel * delta;
+        posVel.z -= posVel.z * frictionDecel * delta;
+    }
+
     private void tickCollisions() {
+        boolean collidesThisTick = false;
         boolean touchesGroundThisTick = false;
 
         for (Entity other : entityHandler.entities) {
             if (other.equals(this)) continue;
             if (this.hitbox == null | other.hitbox == null) continue;
 
-            if (other instanceof EntityGround) {
-                if (this.hitbox.intersectsWith(other.hitbox).onY) {
+//            if (other instanceof EntityGround) {
+            if (other instanceof Entity) {
+                if (this.hitbox.intersectsWith(other.hitbox).all()) {
                     this.posVel.y = 0;
                     touchesGroundThisTick = true;
                     this.onGround = true;
@@ -126,9 +148,15 @@ public abstract class Entity {
         posVel.z += speed * Math.sin(Math.toRadians(angle)) * getLogicDelta();
     }
 
+    public void jump() {
+        if (onGround()) {
+            this.posVel.y += 5;
+        }
+    }
+
     // setters
 
-    public void setDead() {
+    public void kill() {
         isDead = true;
     }
 

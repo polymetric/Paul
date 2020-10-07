@@ -1,6 +1,7 @@
 package net.nodium.games.paul.entities;
 
 import net.nodium.games.paul.EntityHandler;
+import net.nodium.games.paul.phys.Hitbox;
 
 public class EntityCamera extends Entity {
     public boolean isFiringLazor = false;
@@ -11,9 +12,10 @@ public class EntityCamera extends Entity {
 
     @Override
     public void init() {
-        enableGravity = false;
+//        enableGravity = false;
+        hitbox = new Hitbox(pos, 1, 2, 1);
 
-        airResistanceDecel = 5F;
+//        airResistanceDecel = 5F;
         speed = 30F;
     }
 

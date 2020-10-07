@@ -71,6 +71,7 @@ public class Camera {
     }
 
     private void handleKeyMove() {
+        if (!entityCamera.onGround()) return;
         if (isMovingFwd) {
             entityCamera.moveHorizAngle(yaw);
         }
@@ -83,11 +84,11 @@ public class Camera {
         if (isMovingLeft) {
             entityCamera.moveHorizAngle(yaw - 90);
         }
-        if (isMovingUp) {
-            entityCamera.posVel.y += entityCamera.speed * entityCamera.getLogicDelta();
-        }
-        if (isMovingDown) {
-            entityCamera.posVel.y -= entityCamera.speed * entityCamera.getLogicDelta();
-        }
+//        if (isMovingUp) {
+//            entityCamera.posVel.y += entityCamera.speed * entityCamera.getLogicDelta();
+//        }
+//        if (isMovingDown) {
+//            entityCamera.posVel.y -= entityCamera.speed * entityCamera.getLogicDelta();
+//        }
     }
 }

@@ -136,6 +136,12 @@ public class Hitbox {
         shader.stop();
     }
 
+    public void setOffset(float x, float y, float z) {
+        offset.x = x;
+        offset.y = y;
+        offset.z = z;
+    }
+
     public class Bounds {
         public Vector3f min = new Vector3f();
         public Vector3f max = new Vector3f();
@@ -172,8 +178,8 @@ public class Hitbox {
         public boolean onY = false;
         public boolean onZ = false;
 
-        public boolean atAll() {
-            return onX || onY || onZ;
+        public boolean all() {
+            return onX && onY && onZ;
         }
     }
 }

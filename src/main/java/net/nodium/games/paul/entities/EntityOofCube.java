@@ -25,13 +25,13 @@ public class EntityOofCube extends Entity {
         hitbox = new Hitbox(pos, 1, 1, 1);
 
         rand = new Random();
-//        rotVel.y = (rand.nextFloat() - rand.nextFloat()) * 100;
+        rotVel.y = (rand.nextFloat() - rand.nextFloat()) * 100;
 //        rotVel.x = (rand.nextFloat() - rand.nextFloat()) * 40;
 //        rotVel.z = (rand.nextFloat() - rand.nextFloat()) * 40;
-//
-//        posVel.x = (rand.nextFloat() - rand.nextFloat()) * 5;
-//        posVel.y = (rand.nextFloat() - rand.nextFloat()) * 5;
-//        posVel.z = (rand.nextFloat() - rand.nextFloat()) * 5;
+
+        posVel.x = (rand.nextFloat() - rand.nextFloat()) * 5;
+        posVel.y = (rand.nextFloat() - rand.nextFloat()) * 5;
+        posVel.z = (rand.nextFloat() - rand.nextFloat()) * 5;
     }
 
     @Override
@@ -63,15 +63,5 @@ public class EntityOofCube extends Entity {
 //        }
 
         super.tick();
-
-        if (pos.y < -100) {
-//            this.setDead();
-        }
-    }
-
-    public void jump() {
-        if (onGround()) {
-            this.posVel.y += 5;
-        }
     }
 }
