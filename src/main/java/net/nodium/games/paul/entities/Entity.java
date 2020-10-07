@@ -100,7 +100,6 @@ public abstract class Entity {
 
     private void tickCollisions() {
         for (Entity other : entityHandler.entities) {
-
             if (other.equals(this)) continue;
             if (this.hitbox == null | other.hitbox == null) continue;
 

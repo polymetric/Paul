@@ -18,7 +18,7 @@ public class EntityHandler {
     }
 
     public void init() {
-        new EntityGround(this).setPos(-5, 0, -5);
+        new EntityGround(this).setPos(0, 0, 0);
 
         new EntityOofCube(this).setPos(0, 20, 0);
 

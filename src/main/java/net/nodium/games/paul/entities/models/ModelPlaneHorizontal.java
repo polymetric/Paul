@@ -5,7 +5,7 @@ import net.nodium.games.paul.entities.renderers.RenderEntity;
 import net.nodium.games.paul.gl.textures.Texture;
 
 public class ModelPlaneHorizontal extends ModelEntity {
-    public ModelPlaneHorizontal(RenderEntity entityRenderer, float width, float depth, boolean centered) {
+    public ModelPlaneHorizontal(RenderEntity entityRenderer, Texture texture, float width, float depth, boolean centered) {
         super(entityRenderer);
 
         float[] vertices = {
@@ -42,8 +42,6 @@ public class ModelPlaneHorizontal extends ModelEntity {
                 0, 0,
         };
 
-        Texture textureTest = new Texture("/textures/face.png");
-
-        super.model = entityRenderer.assetLoader.loadToVAO(vertices, indices, textureCoords, textureTest, entityRenderer.shader);
+        super.model = entityRenderer.assetLoader.loadToVAO(vertices, indices, textureCoords, texture, entityRenderer.shader);
     }
 }

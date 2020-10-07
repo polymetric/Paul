@@ -5,7 +5,7 @@ import net.nodium.games.paul.entities.renderers.RenderEntity;
 import net.nodium.games.paul.gl.textures.Texture;
 
 public class ModelCube extends ModelEntity {
-    public ModelCube(RenderEntity entityRenderer, float width, float height, float depth, boolean centered) {
+    public ModelCube(RenderEntity entityRenderer, Texture texture, float width, float height, float depth, boolean centered) {
         super(entityRenderer);
 
         float[] vertices = {
@@ -128,8 +128,6 @@ public class ModelCube extends ModelEntity {
                 0, 0,
         };
 
-        Texture textureTest = new Texture("/textures/face.png");
-
-        super.model = entityRenderer.assetLoader.loadToVAO(vertices, indices, textureCoords, textureTest, entityRenderer.shader);
+        super.model = entityRenderer.assetLoader.loadToVAO(vertices, indices, textureCoords, texture, entityRenderer.shader);
     }
 }

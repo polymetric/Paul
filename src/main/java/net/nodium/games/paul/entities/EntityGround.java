@@ -6,7 +6,9 @@ import net.nodium.games.paul.phys.Hitbox;
 public class EntityGround extends Entity {
     public EntityGround(EntityHandler entityHandler) {
         super(entityHandler);
+    }
 
+    public void init() {
         enableGravity = false;
         enableAirResistance = false;
         enableVelocity = false;

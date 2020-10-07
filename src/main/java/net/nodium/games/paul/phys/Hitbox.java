@@ -1,14 +1,11 @@
 package net.nodium.games.paul.phys;
 
-import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.entities.Camera;
 import net.nodium.games.paul.gl.GLUtils;
 import net.nodium.games.paul.gl.shaders.GLShaderDebug;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL46;
 
 import java.nio.FloatBuffer;
@@ -17,6 +14,7 @@ import java.nio.IntBuffer;
 public class Hitbox {
     public Vector3f pos;
     public Vector3f size = new Vector3f();
+    public Vector3f offset = new Vector3f();
     public Bounds bounds = new Bounds();
 
     public Hitbox(Vector3f pos, float sizeX, float sizeY, float sizeZ) {
@@ -50,22 +48,55 @@ public class Hitbox {
     }
 
     private static int vao = GL46.glGenVertexArrays();
-    private static int vbo = GL46.glGenVertexArrays();
+    private static int vboVertices = GL46.glGenBuffers();
+    private static int vboIndices = GL46.glGenBuffers();
     private static GLShaderDebug shader = new GLShaderDebug();
 
     public void render(GLShaderDebug shader123, Matrix4f projMatrix, Camera camera) {
         shader.start();
 
         GL46.glBindVertexArray(vao);
-        GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, vbo);
+        GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, vboVertices);
+        GL46.glBindBuffer(GL46.GL_ELEMENT_ARRAY_BUFFER, vboIndices);
+        
+        float minX = bounds.min.x;
+        float minY = bounds.min.y;
+        float minZ = bounds.min.z;
+        float maxX = bounds.max.x;
+        float maxY = bounds.max.y;
+        float maxZ = bounds.max.z;
 
+//      FloatBuffer vertices = GLUtils.storeDataInFloatBuffer(new float[] {
+//              minX, minY, minZ,
+//              maxX, maxY, maxZ,
+//      });
+        
         FloatBuffer vertices = GLUtils.storeDataInFloatBuffer(new float[] {
-                bounds.min.x, bounds.min.y, bounds.min.z,
-                bounds.max.x, bounds.max.y, bounds.max.z,
+                minX, minY, minZ, // 0
+                minX, minY, maxZ, // 1
+                maxX, minY, maxZ, // 2
+                maxX, minY, minZ, // 3
+                minX, maxY, minZ, // 4
+                minX, maxY, maxZ, // 5
+                maxX, maxY, maxZ, // 6
+                maxX, maxY, minZ, // 7
         });
 
         IntBuffer indices = GLUtils.storeDataInIntBuffer(new int[] {
+                0, 1,
+                1, 2,
+                2, 3,
+                3, 0,
 
+                0, 4,
+                1, 5,
+                2, 6,
+                3, 7,
+
+                4, 5,
+                5, 6,
+                6, 7,
+                7, 4,
         });
 
         GL46.glBufferData(
@@ -81,7 +112,7 @@ public class Hitbox {
         GL46.glVertexAttribPointer(
                 0,                  // index
                 3,                  // size
-                GL11.GL_FLOAT,      // type
+                GL46.GL_FLOAT,      // type
                 false,              // normalized
                 0,                  // stride
                 0                   // offset
@@ -90,13 +121,15 @@ public class Hitbox {
         shader.loadViewMatrix(camera);
         shader.loadTransMatrix(new Matrix4f());
 
-        shader.loadColor(new Vector4f(0, 1, 0, 1));
+        shader.loadColor(new Vector4f(1, 0, 1, 1));
+
         GL46.glEnableVertexAttribArray(0);
 
-        GL46.glPointSize(10);
-
-        GL46.glDrawArrays(GL11.GL_POINTS, 0, 6);
-//        GL46.glDrawElements();
+//        GL46.glPointSize(10);
+//        GL46.glDrawArrays(GL46.GL_POINTS, 0, 6);
+//        GL46.glDrawArrays(GL46.GL_LINE_STRIP, 0, 8);
+        GL46.glLineWidth(5);
+        GL46.glDrawElements(GL46.GL_LINES, 24, GL46.GL_UNSIGNED_INT, 0);
 
         GL46.glDisableVertexAttribArray(0);
         GL46.glBindVertexArray(0);
@@ -104,8 +137,8 @@ public class Hitbox {
     }
 
     public class Bounds {
-        Vector3f min = new Vector3f();
-        Vector3f max = new Vector3f();
+        public Vector3f min = new Vector3f();
+        public Vector3f max = new Vector3f();
 
         public Bounds(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
             min.x = minX;
