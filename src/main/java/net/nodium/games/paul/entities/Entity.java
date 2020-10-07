@@ -101,14 +101,8 @@ public abstract class Entity {
     private void tickCollisions() {
         for (Entity other : entityHandler.entities) {
 
-//            System.out.println(other);
-//            System.out.println(this);
-//            System.out.println();
-
             if (other.equals(this)) continue;
             if (this.hitbox == null | other.hitbox == null) continue;
-
-//            System.out.printf("%s %s\n", hitbox.bounds, other.hitbox.bounds);
 
             if (this.hitbox.intersectsWith(other.hitbox).onY) {
                 this.posVel.y = 0;

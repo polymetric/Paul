@@ -7,10 +7,7 @@ import net.nodium.games.paul.gl.GLUtils;
 import net.nodium.games.paul.gl.shaders.GLShader;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.gl.textures.Texture;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.*;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -45,58 +42,58 @@ public class AssetLoader {
 
     public void cleanup() {
         for (int vaoID : vaos) {
-            GL30.glDeleteVertexArrays(vaoID);
+            GL46.glDeleteVertexArrays(vaoID);
         }
 
         for (int vboID : vbos) {
-            GL15.glDeleteBuffers(vboID);
+            GL46.glDeleteBuffers(vboID);
         }
 
         for (int textureID : textures) {
-            GL11.glDeleteTextures(textureID);
+            GL46.glDeleteTextures(textureID);
         }
     }
 
     private int createVAO() {
-        int vaoID = GL30.glGenVertexArrays();
+        int vaoID = GL46.glGenVertexArrays();
         vaos.add(vaoID);
 
-        GL30.glBindVertexArray(vaoID);
+        GL46.glBindVertexArray(vaoID);
 
         return vaoID;
     }
 
     private void unbindVAO() {
-        GL30.glBindVertexArray(0);
+        GL46.glBindVertexArray(0);
     }
 
     private int createVBO(int target) {
-        int vboID = GL15.glGenBuffers();
+        int vboID = GL46.glGenBuffers();
         vbos.add(vboID);
 
-        GL15.glBindBuffer(target, vboID);
+        GL46.glBindBuffer(target, vboID);
 
         return vboID;
     }
 
     private void unbindVBO(int target) {
-        GL15.glBindBuffer(target, 0);
+        GL46.glBindBuffer(target, 0);
     }
 
     private void storeDataInAttributeList(int attributeNumber, int dimensions, float[] data) {
-        int vboID = createVBO(GL15.GL_ARRAY_BUFFER);
+        int vboID = createVBO(GL46.GL_ARRAY_BUFFER);
         FloatBuffer buffer = GLUtils.storeDataInFloatBuffer(data);
 
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(attributeNumber, dimensions, GL11.GL_FLOAT, false, 0, 0);
+        GL46.glBufferData(GL46.GL_ARRAY_BUFFER, buffer, GL46.GL_STATIC_DRAW);
+        GL46.glVertexAttribPointer(attributeNumber, dimensions, GL46.GL_FLOAT, false, 0, 0);
 
-        unbindVBO(GL15.GL_ARRAY_BUFFER);
+        unbindVBO(GL46.GL_ARRAY_BUFFER);
     }
 
     private void bindIndicesBuffer(int[] indices) {
-        int vboID = createVBO(GL15.GL_ELEMENT_ARRAY_BUFFER);
+        int vboID = createVBO(GL46.GL_ELEMENT_ARRAY_BUFFER);
         IntBuffer buffer = GLUtils.storeDataInIntBuffer(indices);
 
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+        GL46.glBufferData(GL46.GL_ELEMENT_ARRAY_BUFFER, buffer, GL46.GL_STATIC_DRAW);
     }
 }

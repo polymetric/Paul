@@ -16,12 +16,6 @@ public class ModelPlaneHorizontal extends ModelEntity {
                 width, 0,      depth,
         };
 
-        for (int i = 0; i < vertices.length; i += 3) {
-            System.out.printf("%6.3f %6.3f %6.3f\n", vertices[i], vertices[i+1], vertices[i+2]);
-        }
-
-        System.out.println();
-
         if (centered) {
             for (int i = 0; i < vertices.length; i++) {
                 switch (i % 3) {
@@ -34,10 +28,6 @@ public class ModelPlaneHorizontal extends ModelEntity {
                     default:
                 }
             }
-        }
-
-        for (int i = 0; i < vertices.length; i += 3) {
-            System.out.printf("%6.3f %6.3f %6.3f\n", vertices[i], vertices[i+1], vertices[i+2]);
         }
 
         int[] indices = {

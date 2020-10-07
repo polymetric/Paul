@@ -49,8 +49,8 @@ public class Hitbox {
         return inter;
     }
 
-    private static int vao = GL30.glGenVertexArrays();
-    private static int vbo = GL30.glGenVertexArrays();
+    private static int vao = GL46.glGenVertexArrays();
+    private static int vbo = GL46.glGenVertexArrays();
     private static GLShaderDebug shader = new GLShaderDebug();
 
     public void render(GLShaderDebug shader123, Matrix4f projMatrix, Camera camera) {
@@ -97,6 +97,10 @@ public class Hitbox {
 
         GL46.glDrawArrays(GL11.GL_POINTS, 0, 6);
 //        GL46.glDrawElements();
+
+        GL46.glDisableVertexAttribArray(0);
+        GL46.glBindVertexArray(0);
+        shader.stop();
     }
 
     public class Bounds {
