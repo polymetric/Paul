@@ -9,7 +9,6 @@ public class RenderGround extends RenderEntity {
     public RenderGround(AssetLoader assetLoader, GLShaderBase shader) {
         super(assetLoader, shader);
 
-        modelEntity = new ModelCube(this, 0.1f, 1, 0.1f);
-        modelEntity = new ModelPlaneHorizontal(this, 10, 10);
+        modelEntity = new ModelPlaneHorizontal(this, 10, 10, true);
     }
 }

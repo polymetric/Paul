@@ -4,10 +4,7 @@ import net.nodium.games.paul.gl.shaders.GLShader;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.gl.textures.Texture;
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.*;
 
 public class GLModelTextured extends GLModelRaw {
     private Texture texture;
@@ -32,6 +29,7 @@ public class GLModelTextured extends GLModelRaw {
 
         shader.loadTransMatrix(transformationMatrix);
 
+//        GL46.glPolygonMode(GL46.GL_FRONT_AND_BACK, GL46.GL_LINE);
         GL11.glDrawElements(GL11.GL_TRIANGLES, this.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
         GL20.glDisableVertexAttribArray(0);

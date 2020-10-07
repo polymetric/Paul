@@ -1,7 +1,6 @@
 package net.nodium.games.paul.entities;
 
 import net.nodium.games.paul.EntityHandler;
-import net.nodium.games.paul.GameLoop;
 import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.math.MathUtils;
 import net.nodium.games.paul.phys.Hitbox;
@@ -22,7 +21,7 @@ public abstract class Entity {
     public Vector3f rotVel = new Vector3f(0, 0, 0);
     public Vector3f rotVis = rot;
 
-    public Hitbox hitbox = new Hitbox();
+    public Hitbox hitbox;
 
     public int health = 1;
 
@@ -52,6 +51,7 @@ public abstract class Entity {
         tickVelocity();
         tickGravity();
         tickAirResistance();
+        tickCollisions();
 
         if (health <= 0) {
             setDead();
@@ -96,6 +96,25 @@ public abstract class Entity {
         posVel.x -= posVel.x * airResistanceDecel * delta;
         posVel.y -= posVel.y * airResistanceDecel * delta;
         posVel.z -= posVel.z * airResistanceDecel * delta;
+    }
+
+    private void tickCollisions() {
+        for (Entity other : entityHandler.entities) {
+
+//            System.out.println(other);
+//            System.out.println(this);
+//            System.out.println();
+
+            if (other.equals(this)) continue;
+            if (this.hitbox == null | other.hitbox == null) continue;
+
+//            System.out.printf("%s %s\n", hitbox.bounds, other.hitbox.bounds);
+
+            if (this.hitbox.intersectsWith(other.hitbox).onY) {
+                this.posVel.y = 0;
+                break;
+            }
+        }
     }
 
     public void moveHorizAngle(double angle) {

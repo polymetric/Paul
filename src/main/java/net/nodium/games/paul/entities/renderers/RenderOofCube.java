@@ -9,6 +9,6 @@ public class RenderOofCube extends RenderEntity {
         super(assetLoader, shader);
 
 //        modelEntity = new ModelOofCube(this);
-        modelEntity = new ModelCube(this, 0.1f, 1, 0.1f);
+        modelEntity = new ModelCube(this, 1, 1, 1, true);
     }
 }

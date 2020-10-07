@@ -5,7 +5,7 @@ import net.nodium.games.paul.entities.renderers.RenderEntity;
 import net.nodium.games.paul.gl.textures.Texture;
 
 public class ModelCube extends ModelEntity {
-    public ModelCube(RenderEntity entityRenderer, float width, float height, float depth) {
+    public ModelCube(RenderEntity entityRenderer, float width, float height, float depth, boolean centered) {
         super(entityRenderer);
 
         float[] vertices = {
@@ -46,6 +46,23 @@ public class ModelCube extends ModelEntity {
                 0,     height, depth,
                 width, height, depth,
         };
+
+        if (centered) {
+            for (int i = 0; i < vertices.length; i++) {
+                switch (i % 3) {
+                    case 0:
+                        vertices[i] -= width / 2.0f;
+                        break;
+                    case 1:
+                        vertices[i] -= height / 2.0f;
+                        break;
+                    case 2:
+                        vertices[i] -= depth / 2.0f;
+                        break;
+                    default:
+                }
+            }
+        }
 
         int[] indices = {
                 // face Xa

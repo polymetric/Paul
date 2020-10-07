@@ -2,6 +2,7 @@ package net.nodium.games.paul.entities;
 
 import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.Launcher;
+import net.nodium.games.paul.phys.Hitbox;
 
 import java.util.Random;
 
@@ -19,7 +20,9 @@ public class EntityOofCube extends Entity {
 
     @Override
     public void init() {
-        enableGravity = false;
+//        enableGravity = false;
+
+        hitbox = new Hitbox(pos, 1, 1, 1);
 
         rand = new Random();
 //        rotVel.y = (rand.nextFloat() - rand.nextFloat()) * 100;

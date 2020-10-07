@@ -57,6 +57,25 @@ public class MathUtils {
         return viewMatrix;
     }
 
+    public static Matrix4f createProjMatrix(Display display, float fov, float nearPlane, float farPlane) {
+        Matrix4f projMatrix = new Matrix4f();
+
+        float aspectRatio = (float) display.getWidth() / (float) display.getHeight();
+        float yScale = (float) ((1f / Math.tan(Math.toRadians(fov / 2f))) * aspectRatio);
+        float xScale = yScale / aspectRatio;
+        float frustum_length = farPlane - nearPlane;
+
+        projMatrix = new Matrix4f();
+        projMatrix.m00(xScale);
+        projMatrix.m11(yScale);
+        projMatrix.m22(-((farPlane + nearPlane) / frustum_length));
+        projMatrix.m23(-1);
+        projMatrix.m32(-((2 * nearPlane * farPlane) / frustum_length));
+        projMatrix.m33(0);
+
+        return projMatrix;
+    }
+
     public static float lerp(float x, float x0, float x1, float y0, float y1) {
         return y0 + (x - x0) * ((y1 - y0) / (x1 - x0));
     }

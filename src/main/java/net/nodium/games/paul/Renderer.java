@@ -9,10 +9,17 @@ import net.nodium.games.paul.entities.renderers.RenderGround;
 import net.nodium.games.paul.entities.renderers.RenderOofCube;
 import net.nodium.games.paul.gl.*;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
+import net.nodium.games.paul.gl.shaders.GLShaderDebug;
+import net.nodium.games.paul.math.MathUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL46;
 
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -27,12 +34,12 @@ public class Renderer {
 
     private HashMap<Class, RenderEntity> entityRendererMap;
 
-    private Matrix4f projMatrix;
-    private final float FOV = 90;
-    private final float NEAR_PLANE = 0.001f;
-    private final float FAR_PLANE = 1000f;
+    public Matrix4f projMatrix;
+    public final float FOV = 90;
+    public final float NEAR_PLANE = 0.001f;
+    public final float FAR_PLANE = 1000f;
 
-    private Vector3f bg = new Vector3f(0, 0, 0);
+    public Vector3f bg = new Vector3f(0, 0, 0);
 
     public Renderer(Game game, Display display) {
         this.game = game;
@@ -41,7 +48,8 @@ public class Renderer {
         entityRendererMap = new HashMap();
         initEntityRenderMap();
 
-        createProjMatrix();
+        projMatrix = MathUtils.createProjMatrix(display, FOV, NEAR_PLANE, FAR_PLANE);
+
         shader.start();
         shader.loadProjMatrix(projMatrix);
         shader.stop();
@@ -56,7 +64,6 @@ public class Renderer {
         GL11.glEnable(GL_DEPTH_TEST);
 
         // set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         double mult = 5D;
 //        bg.x = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360)) + 1) / 2;
 //        bg.y = (float) (Math.sin(mult * Math.toRadians(game.gameLoop.ticks % 360) + (Math.PI * 2 / 3)) + 1) / 2;
@@ -72,11 +79,14 @@ public class Renderer {
         shader.loadViewMatrix(camera);
         shader.stop();
 
-        // render stuff here
+//         render stuff here
         for (Entity e : game.entityHandler.entities) {
             if (e.isRenderable()) {
                 RenderEntity renderEntity = getEntityRenderer(e);
                 renderEntity.render(e, renderEntity.modelEntity);
+                if (e.hitbox != null) {
+                    e.hitbox.render(null, projMatrix, camera);
+                }
             }
         }
 
@@ -91,21 +101,6 @@ public class Renderer {
 
     public void cleanup() {
         game.assetLoader.cleanup();
-    }
-
-    private void createProjMatrix() {
-        float aspectRatio = (float) display.getWidth() / (float) display.getHeight();
-        float yScale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
-        float xScale = yScale / aspectRatio;
-        float frustum_length = FAR_PLANE - NEAR_PLANE;
-
-        projMatrix = new Matrix4f();
-        projMatrix.m00(xScale);
-        projMatrix.m11(yScale);
-        projMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustum_length));
-        projMatrix.m23(-1);
-        projMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
-        projMatrix.m33(0);
     }
 
     private void initEntityRenderMap() {
