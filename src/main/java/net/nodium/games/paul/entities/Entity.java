@@ -36,6 +36,7 @@ public abstract class Entity {
     public boolean enableAirResistance = true;
 
     private boolean isDead = false;
+    private boolean onGround = false;
 
     public Entity(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
@@ -99,14 +100,23 @@ public abstract class Entity {
     }
 
     private void tickCollisions() {
+        boolean touchesGroundThisTick = false;
+
         for (Entity other : entityHandler.entities) {
             if (other.equals(this)) continue;
             if (this.hitbox == null | other.hitbox == null) continue;
 
-            if (this.hitbox.intersectsWith(other.hitbox).onY) {
-                this.posVel.y = 0;
-                break;
+            if (other instanceof EntityGround) {
+                if (this.hitbox.intersectsWith(other.hitbox).onY) {
+                    this.posVel.y = 0;
+                    touchesGroundThisTick = true;
+                    this.onGround = true;
+                }
             }
+        }
+
+        if (!touchesGroundThisTick) {
+            this.onGround = false;
         }
     }
 
@@ -159,6 +169,8 @@ public abstract class Entity {
     public boolean isDead() {
         return isDead;
     }
+
+    public boolean onGround() { return onGround; }
 
     public double getLogicDelta() {
         return entityHandler.game.gameLoop.getLogicDelta();

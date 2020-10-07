@@ -171,5 +171,9 @@ public class Hitbox {
         public boolean onX = false;
         public boolean onY = false;
         public boolean onZ = false;
+
+        public boolean atAll() {
+            return onX || onY || onZ;
+        }
     }
 }

@@ -1,6 +1,8 @@
 package net.nodium.games.paul.input;
 
 import net.nodium.games.paul.Game;
+import net.nodium.games.paul.entities.Entity;
+import net.nodium.games.paul.entities.EntityOofCube;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -23,5 +25,12 @@ public class KeyHandler implements GLFWKeyCallbackI {
         if (key == GLFW_KEY_SPACE) { game.camera.isMovingUp = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_LEFT_SHIFT) { game.camera.isMovingDown = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS ) { game.camera.entityCamera.isFiringLazor = true; }
+        if (key == GLFW_KEY_T && action == GLFW_PRESS) {
+            for (Entity e : game.entityHandler.entities) {
+                if (e instanceof EntityOofCube) {
+                    ((EntityOofCube) e).jump();
+                }
+            }
+        }
     }
 }

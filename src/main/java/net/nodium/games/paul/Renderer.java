@@ -85,7 +85,7 @@ public class Renderer {
                 RenderEntity renderEntity = getEntityRenderer(e);
                 renderEntity.render(e, renderEntity.modelEntity);
                 if (e.hitbox != null) {
-                    e.hitbox.render(null, projMatrix, camera);
+//                    e.hitbox.render(null, projMatrix, camera);
                 }
             }
         }

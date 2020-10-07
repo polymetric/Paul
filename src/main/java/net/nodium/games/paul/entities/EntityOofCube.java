@@ -70,6 +70,8 @@ public class EntityOofCube extends Entity {
     }
 
     public void jump() {
-        this.posVel.y += 5;
+        if (onGround()) {
+            this.posVel.y += 5;
+        }
     }
 }
