@@ -21,12 +21,13 @@ public class EntityOofCube extends Entity {
     public void init() {
 //        enableGravity = false;
 
+        deathAnimationLength = 1;
         hitbox = new Hitbox(pos, 1, 1, 1);
 
         rand = new Random();
         rotVel.y = (rand.nextFloat() - rand.nextFloat()) * 100;
-//        rotVel.x = (rand.nextFloat() - rand.nextFloat()) * 40;
-//        rotVel.z = (rand.nextFloat() - rand.nextFloat()) * 40;
+        rotVel.x = (rand.nextFloat() - rand.nextFloat()) * 40;
+        rotVel.z = (rand.nextFloat() - rand.nextFloat()) * 40;
 
         posVel.x = (rand.nextFloat() - rand.nextFloat()) * 5;
         posVel.y = (rand.nextFloat() - rand.nextFloat()) * 5;
@@ -35,32 +36,45 @@ public class EntityOofCube extends Entity {
 
     @Override
     public void tick() {
-        if (this.isWithinRadiusOf(entityHandler.game.camera.boundEntity, 4)) {
-//            isBrring = true;
+        if (this.isWithinRadiusOf(entityHandler.game.camera.boundEntity, 2)) {
+            isBrring = true;
         } else {
             isBrring = false;
         }
 
-//        if (isBrring) {
-//            brrPosAmount += 0.1F * getLogicDelta();
-//            brrRotAmount += 0.1F * getLogicDelta();
-//
-//            if (brrPosAmount >= 0.1F) {
-//                brrPosAmount = 0.1F;
-//            }
-//
-//           posVel.x += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
-//           posVel.y += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
-//           posVel.z += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
-//
-//            rot.x += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
-//            rot.y += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
-//            rot.z += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
-//        } else {
-//            brrPosAmount -= brrPosAmount / getLogicDelta();
-//            brrRotAmount -= brrRotAmount / getLogicDelta();
-//        }
+        if (isBrring) {
+            brrPosAmount += 0.1F * getLogicDelta();
+            brrRotAmount += 0.1F * getLogicDelta();
+
+            if (brrPosAmount >= 0.1F) {
+                brrPosAmount = 0.1F;
+            }
+
+           posVel.x += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
+           posVel.y += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
+           posVel.z += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
+
+            rot.x += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
+            rot.y += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
+            rot.z += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
+        } else {
+            brrPosAmount -= brrPosAmount / getLogicDelta();
+            brrRotAmount -= brrRotAmount / getLogicDelta();
+        }
 
         super.tick();
+    }
+
+    @Override
+    public void onCollide(Entity other) {
+        if (other instanceof EntityGround) {
+            this.kill();
+            ((EntityGround) other).hurt(this, 1);
+        }
+    }
+
+    @Override
+    public void playDeathAnimation() {
+        scale = (float) (1 + (timeDead * getLogicDelta()));
     }
 }

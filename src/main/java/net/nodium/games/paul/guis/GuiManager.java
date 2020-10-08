@@ -37,6 +37,8 @@ public class GuiManager {
 //        new GuiString(this, textRenderer).setText(" _");
 //        new GuiTexture(this).setTexture(new Texture("/textures/gui/font.png")).setPos(0, 0);
         deathScreen = new GuiDeathScreen(this, textRenderer);
+//        killCounter = new GuiKillCounter(this, textRenderer);
+
     }
 
     public void tick() {

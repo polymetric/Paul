@@ -34,13 +34,13 @@ public class Hitbox {
     public Bounds getBounds() {
         if (boundsCalculatedThisTick) return bounds;
 
-        bounds.min.x = pos.x - size.x / 2;
-        bounds.min.y = pos.y - size.y / 2;
-        bounds.min.z = pos.z - size.z / 2;
+        bounds.min.x = pos.x - size.x / 2 + offset.x;
+        bounds.min.y = pos.y - size.y / 2 + offset.y;
+        bounds.min.z = pos.z - size.z / 2 + offset.z;
 
-        bounds.max.x = pos.x + size.x / 2;
-        bounds.max.y = pos.y + size.y / 2;
-        bounds.max.z = pos.z + size.z / 2;
+        bounds.max.x = pos.x + size.x / 2 + offset.x;
+        bounds.max.y = pos.y + size.y / 2 + offset.y;
+        bounds.max.z = pos.z + size.z / 2 + offset.z;
 
         boundsCalculatedThisTick = true;
         return bounds;
@@ -170,10 +170,12 @@ public class Hitbox {
         shader.stop();
     }
 
-    public void setOffset(float x, float y, float z) {
+    public Hitbox setOffset(float x, float y, float z) {
         offset.x = x;
         offset.y = y;
         offset.z = z;
+
+        return this;
     }
 
     public class Bounds {

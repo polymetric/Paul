@@ -13,9 +13,11 @@ public class EntityGround extends Entity {
         enableAirResistance = false;
         enableVelocity = false;
 
-        invulnerable = true;
+        health = 100;
 
-        hitbox = new Hitbox(pos, 10, 1e-3f, 10);
+//        invulnerable = true;
+
+        hitbox = new Hitbox(pos, 40, 2, 40).setOffset(0, -1, 0);
     }
 
     @Override

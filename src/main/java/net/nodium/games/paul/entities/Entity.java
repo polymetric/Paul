@@ -23,6 +23,8 @@ public abstract class Entity {
     public Vector3f rotVel = new Vector3f(0, 0, 0);
     public Vector3f rotVis = rot;
 
+    public float scale = 1.0F;
+
     public Hitbox hitbox;
 
     public int health = 1;
@@ -39,10 +41,16 @@ public abstract class Entity {
     public boolean enableAirResistance = true;
     public boolean enableFriction = true;
 
+    public int timeDead = 0;
+    public int deathAnimationLength = 0;
     private boolean isDead = false;
+    private boolean markedForCleanup = false;
+
     private boolean onGround = false;
     public boolean isJumping = false;
     public boolean invulnerable = false;
+
+    public boolean isSolid = true;
 
     public Entity(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
@@ -52,10 +60,16 @@ public abstract class Entity {
         this.init();
     }
 
-    public void init() {}
+    public void init() {
+
+    }
 
     public void tick() {
-        if (isJumping) jump();
+        if (isDead()) { timeDead++; }
+        playDeathAnimation();
+        if (timeDead * getLogicDelta() > deathAnimationLength) { markedForCleanup = true; }
+
+        if (isJumping) { jump(); }
 
         tickCollisions();
 
@@ -71,6 +85,10 @@ public abstract class Entity {
         if (pos.y < -100) {
             this.kill();
         }
+    }
+
+    public void playDeathAnimation() {
+
     }
 
     private void tickVelocity() {
@@ -138,11 +156,10 @@ public abstract class Entity {
                 if (hitbox.intersectsWith(other.hitbox)) {
                     onCollide(other);
 
-//                    this.posVel.x = 0;
-//                    this.posVel.y = 0;
-//                    this.posVel.z = 0;
                     touchesGroundThisTick = true;
-                    onGround = true;
+                    if (other.isSolid) {
+                        onGround = true;
+                    }
                 }
             }
         }
@@ -154,8 +171,10 @@ public abstract class Entity {
         if (this instanceof EntityGround) { return; }
         if (other instanceof EntityGround) { posVel.y = Math.max(posVel.y, 0); return; }
 
-//        CardinalDirection dirFrom = MathUtils.getCardinalDir(MathUtils.getAngleBetweenPoints(this.pos, other.pos));
+        Vector2f angleFrom = MathUtils.getAngleBetweenPoints(this.pos, other.pos);
         CardinalDirection dirFrom = hitbox.intersectDir(other.hitbox);
+
+//        this.posVel.add(MathUtils.vecFromAngle(angleFrom));
 
         switch (dirFrom) {
 //            case NEG_Z: posVel.z = Math.max(posVel.z, 0); break;
@@ -233,6 +252,10 @@ public abstract class Entity {
 
     public boolean isDead() {
         return isDead;
+    }
+
+    public boolean isMarkedForCleanup() {
+        return isMarkedForCleanup();
     }
 
     public boolean onGround() { return onGround; }

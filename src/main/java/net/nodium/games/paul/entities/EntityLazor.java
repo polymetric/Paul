@@ -19,8 +19,9 @@ public class EntityLazor extends Entity {
 
         this.sender = sender;
 
-        hitbox = new Hitbox(pos, .1f, .1f, .1f);
+        hitbox = new Hitbox(pos, .5f, .5f, .5f);
         enableGravity = false;
+        isSolid = false;
 
         setPos(
                 camera.pos.x + camera.offset.x,
@@ -43,13 +44,18 @@ public class EntityLazor extends Entity {
 
     @Override
     public void onCollide(Entity other) {
-        if (other.equals(sender)) { return; }
+        if (other == sender) { return; }
+
+        Vector2f angleFrom = MathUtils.getAngleBetweenPoints(this.pos, other.pos);
+        CardinalDirection dirFrom = hitbox.intersectDir(other.hitbox);
 
         switch (MathUtils.getCardinalDir(other.getDirectionRelativeTo(this))) {
 
         }
 
+        other.posVel.add(MathUtils.vecFromAngle(angleFrom));
         other.hurt(this, 10);
+        this.kill();
     }
 
     @Override

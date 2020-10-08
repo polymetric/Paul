@@ -19,7 +19,7 @@ public class RenderEntity {
     }
 
     public void render(Entity entity, ModelEntity modelEntity) {
-        modelEntity.model.setTransformationMatrix(MathUtils.createTransformationMatrix(entity.posVis, entity.rotVis, 1.0F));
+        modelEntity.model.setTransformationMatrix(MathUtils.createTransformationMatrix(entity.posVis, entity.rotVis, entity.scale));
         modelEntity.model.render();
     }
 }

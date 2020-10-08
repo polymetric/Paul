@@ -124,7 +124,7 @@ public class MathUtils {
         return yaw;
     }
 
-    public Vector3f vecFromAngle(Vector2f ang) {
+    public static Vector3f vecFromAngle(Vector2f ang) {
         return new Vector3f(
                 (float) (Math.cos(Math.toRadians(ang.y - 90)) * Math.cos(Math.toRadians(ang.x))),
                 (float) (Math.sin(Math.toRadians(ang.x - 180))),
