@@ -2,8 +2,10 @@ package net.nodium.games.paul.gl;
 
 import net.nodium.games.paul.input.KeyHandler;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWFramebufferSizeCallbackI;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL46;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
@@ -46,16 +48,7 @@ public class Display {
             throw new RuntimeException("Failed to create the GLFW window");
         }
 
-        // setup a key callback, called every time a key is pressed, repeated or released
-        // TODO move this to its own class
-//        glfwSetKeyCallback(windowID, new GLFWKeyCallbackI() {
-//            @Override
-//            public void invoke(long window, int key, int scancode, int action, int mods) {
-//                if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-//                    glfwSetWindowShouldClose(window, true); // the main loop detects this and ends when it's true
-//                }
-//            }
-//        });
+        // setup the key callback, called every time a key is pressed, repeated or released
         glfwSetKeyCallback(windowID, keyHandler);
 
         // get the thread stack and push a new frame
@@ -89,6 +82,10 @@ public class Display {
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
         GL.createCapabilities();
+
+        glfwSetFramebufferSizeCallback(windowID, (windowID, width, height) -> {
+            this.setSize(width, height);
+        });
     }
 
     public Display disableCursor() {
@@ -123,5 +120,11 @@ public class Display {
 
     public void setKeyHandler(KeyHandler keyHandler) {
         this.keyHandler = keyHandler;
+    }
+
+    public void setSize(int width, int height) {
+        GL46.glViewport(0, 0, width, height);
+        this.width = width;
+        this.height = height;
     }
 }

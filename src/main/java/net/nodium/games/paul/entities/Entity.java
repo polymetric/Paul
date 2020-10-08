@@ -52,12 +52,12 @@ public abstract class Entity {
     public void init() {}
 
     public void tick() {
-        tickCollisions();
-
         tickVelocity();
         tickGravity();
         tickAirResistance();
         tickFriction();
+
+        tickCollisions();
 
         if (health <= 0) {
             kill();
@@ -69,16 +69,16 @@ public abstract class Entity {
     }
 
     private void tickVelocity() {
-        if (!enableVelocity) return;
+        if (!enableVelocity) { return; }
 
         // velocity limits
-        posVel.x = posVel.x > posVelMax ? posVelMax : posVel.x;
-        posVel.y = posVel.y > posVelMax ? posVelMax : posVel.y;
-        posVel.z = posVel.z > posVelMax ? posVelMax : posVel.z;
+        posVel.x = Math.min(posVel.x, posVelMax);
+        posVel.y = Math.min(posVel.y, posVelMax);
+        posVel.z = Math.min(posVel.z, posVelMax);
 
-        posVel.x = posVel.x < -posVelMax ? -posVelMax : posVel.x;
-        posVel.y = posVel.y < -posVelMax ? -posVelMax : posVel.y;
-        posVel.z = posVel.z < -posVelMax ? -posVelMax : posVel.z;
+        posVel.x = Math.max(posVel.x, -posVelMax);
+        posVel.y = Math.max(posVel.y, -posVelMax);
+        posVel.z = Math.max(posVel.z, -posVelMax);
 
         // add velocity to position
         // this is tickrate agnostic, which means the velocity
@@ -99,7 +99,7 @@ public abstract class Entity {
     }
 
     private void tickAirResistance() {
-        if (!enableAirResistance) return;
+        if (!enableAirResistance) { return; }
 
         double delta = Launcher.game.gameLoop.getLogicDelta();
 
@@ -109,8 +109,8 @@ public abstract class Entity {
     }
 
     private void tickFriction() {
-        if (!enableFriction) return;
-        if (!onGround()) return;
+        if (!enableFriction) { return; }
+        if (!onGround()) { return; }
 
         double delta = getLogicDelta();
 
@@ -120,26 +120,31 @@ public abstract class Entity {
     }
 
     private void tickCollisions() {
+        if (hitbox == null) { return; }
+        hitbox.tick();
         boolean collidesThisTick = false;
         boolean touchesGroundThisTick = false;
 
         for (Entity other : entityHandler.entities) {
-            if (other.equals(this)) continue;
-            if (this.hitbox == null | other.hitbox == null) continue;
+            if (other.equals(this)) { continue; }
+            if (this.hitbox == null | other.hitbox == null) { continue; }
 
 //            if (other instanceof EntityGround) {
             if (other instanceof Entity) {
-                if (this.hitbox.intersectsWith(other.hitbox).all()) {
+                if (this.hitbox.intersectsWith(other.hitbox)) {
+//                    this.posVel.x = 0;
                     this.posVel.y = 0;
+//                    this.posVel.z = 0;
+                    collidesThisTick = true;
+                    this.isColliding = true;
                     touchesGroundThisTick = true;
                     this.onGround = true;
                 }
             }
         }
 
-        if (!touchesGroundThisTick) {
-            this.onGround = false;
-        }
+        if (!touchesGroundThisTick) { this.onGround = false; }
+        if (!collidesThisTick) { this.isColliding = false; }
     }
 
     public void moveHorizAngle(double angle) {

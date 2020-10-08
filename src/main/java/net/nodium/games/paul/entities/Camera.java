@@ -3,15 +3,16 @@ package net.nodium.games.paul.entities;
 import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.input.MouseHandler;
 import net.nodium.games.paul.sound.SoundListener;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Camera {
     private MouseHandler mouseHandler;
     private SoundListener soundListener;
-    public EntityCamera entityCamera;
+    // TODO change this to entity so it can be bound to any entity
+    public EntityCamera boundEntity;
 
     public Vector3f pos;
+    public Vector3f offset = new Vector3f(0, 1, 0);
     public float pitch = 0;
     public float yaw = 0;
     public float roll = 0;
@@ -31,8 +32,8 @@ public class Camera {
         this.mouseHandler = mouseHandler;
 //        this.soundListener = new SoundListener();
 
-        this.entityCamera = new EntityCamera(entityHandler);
-        this.pos = entityCamera.pos;
+        this.boundEntity = new EntityCamera(entityHandler, this);
+        this.pos = boundEntity.pos;
 
 //        this.yawVel = 1.5f;
 //        this.pitchVel = 1.5f;
@@ -43,15 +44,14 @@ public class Camera {
     }
 
     public void tick() {
-        entityCamera.tick();
-        tickVelocity();
         handleKeyMove();
+//        tickVelocity();
     }
 
     public void tickVelocity() {
-        this.pitch += pitchVel * entityCamera.getLogicDelta();
-        this.yaw += yawVel * entityCamera.getLogicDelta();
-        this.roll += rollVel * entityCamera.getLogicDelta();
+        this.pitch += pitchVel * boundEntity.getLogicDelta();
+        this.yaw += yawVel * boundEntity.getLogicDelta();
+        this.roll += rollVel * boundEntity.getLogicDelta();
     }
 
     public void render() {
@@ -59,6 +59,8 @@ public class Camera {
     }
 
     private void handleMouseLook() {
+        // TODO bind rotation to boundEntity
+
         pitch += mouseHandler.deltaY * 0.15;
         yaw += mouseHandler.deltaX * 0.15;
 
@@ -71,18 +73,18 @@ public class Camera {
     }
 
     private void handleKeyMove() {
-        if (!entityCamera.onGround()) return;
+        if (!boundEntity.onGround()) return;
         if (isMovingFwd) {
-            entityCamera.moveHorizAngle(yaw);
+            boundEntity.moveHorizAngle(yaw);
         }
         if (isMovingBwd) {
-            entityCamera.moveHorizAngle(yaw + 180);
+            boundEntity.moveHorizAngle(yaw + 180);
         }
         if (isMovingRight) {
-            entityCamera.moveHorizAngle(yaw + 90);
+            boundEntity.moveHorizAngle(yaw + 90);
         }
         if (isMovingLeft) {
-            entityCamera.moveHorizAngle(yaw - 90);
+            boundEntity.moveHorizAngle(yaw - 90);
         }
 //        if (isMovingUp) {
 //            entityCamera.posVel.y += entityCamera.speed * entityCamera.getLogicDelta();
@@ -90,5 +92,10 @@ public class Camera {
 //        if (isMovingDown) {
 //            entityCamera.posVel.y -= entityCamera.speed * entityCamera.getLogicDelta();
 //        }
+    }
+
+    // TODO make this able to bind to any entity
+    public void bindToEntity(EntityCamera entity) {
+        boundEntity = entity;
     }
 }

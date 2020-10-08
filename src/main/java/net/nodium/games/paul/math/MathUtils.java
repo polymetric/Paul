@@ -16,9 +16,9 @@ public class MathUtils {
         Matrix4f matrix = new Matrix4f();
 
         matrix.translate(pos);
-        matrix.rotate((float) Math.toRadians(rot.x), new Vector3f(1, 0, 0));
-        matrix.rotate((float) Math.toRadians(rot.y), new Vector3f(0, 1, 0));
-        matrix.rotate((float) Math.toRadians(rot.z), new Vector3f(0, 0, 1));
+        matrix.rotate((float) Math.toRadians(rot.y), 0, 1, 0);
+        matrix.rotate((float) Math.toRadians(rot.x), 1, 0, 0);
+        matrix.rotate((float) Math.toRadians(rot.z), 0, 0, 1);
         matrix.scale(scale);
 
         return matrix;
@@ -50,10 +50,13 @@ public class MathUtils {
 
     public static Matrix4f createViewMatrix(Camera camera) {
         Matrix4f viewMatrix = new Matrix4f();
-        viewMatrix.rotate((float) Math.toRadians(camera.roll), new Vector3f(0, 0, 1));
-        viewMatrix.rotate((float) Math.toRadians(camera.pitch), new Vector3f(1, 0, 0));
-        viewMatrix.rotate((float) Math.toRadians(camera.yaw), new Vector3f(0, 1, 0));
+
+        viewMatrix.rotate((float) Math.toRadians(camera.roll), 0, 0, 1);
+        viewMatrix.rotate((float) Math.toRadians(camera.pitch), 1, 0, 0);
+        viewMatrix.rotate((float) Math.toRadians(camera.yaw), 0, 1, 0);
         viewMatrix.translate(new Vector3f(-camera.pos.x, -camera.pos.y, -camera.pos.z));
+        viewMatrix.translate(new Vector3f(-camera.offset.x, -camera.offset.y, -camera.offset.z));
+
         return viewMatrix;
     }
 

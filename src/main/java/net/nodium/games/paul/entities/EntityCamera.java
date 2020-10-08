@@ -4,10 +4,13 @@ import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.phys.Hitbox;
 
 public class EntityCamera extends Entity {
-    public boolean isFiringLazor = false;
+    private Camera camera;
 
-    public EntityCamera(EntityHandler entityHandler) {
+    private boolean isFiringLazor = false;
+
+    public EntityCamera(EntityHandler entityHandler, Camera camera) {
         super(entityHandler);
+        this.camera = camera;
     }
 
     @Override
@@ -22,11 +25,15 @@ public class EntityCamera extends Entity {
     @Override
     public void tick() {
         if (isFiringLazor) {
+            new EntityLazor(entityHandler, camera);
             isFiringLazor = false;
-            System.out.println("lazor");
         }
 
         super.tick();
+    }
+
+    public void fireLazor() {
+        isFiringLazor = true;
     }
 
     @Override

@@ -59,7 +59,7 @@ public class Game {
     public void tick() {
         mouseHandler.tick();
 
-        if (isPaused()) return;
+//        if (isPaused()) return;
 
         camera.tick();
         entityHandler.tick();

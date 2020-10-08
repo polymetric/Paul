@@ -1,7 +1,6 @@
 package net.nodium.games.paul.entities;
 
 import net.nodium.games.paul.EntityHandler;
-import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.phys.Hitbox;
 
 import java.util.Random;
@@ -36,7 +35,7 @@ public class EntityOofCube extends Entity {
 
     @Override
     public void tick() {
-        if (this.isWithinRadiusOf(entityHandler.game.camera.entityCamera, 4)) {
+        if (this.isWithinRadiusOf(entityHandler.game.camera.boundEntity, 4)) {
 //            isBrring = true;
         } else {
             isBrring = false;

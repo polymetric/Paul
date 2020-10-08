@@ -1,11 +1,9 @@
 package net.nodium.games.paul;
 
-import net.nodium.games.paul.entities.Camera;
-import net.nodium.games.paul.entities.Entity;
-import net.nodium.games.paul.entities.EntityGround;
-import net.nodium.games.paul.entities.EntityOofCube;
+import net.nodium.games.paul.entities.*;
 import net.nodium.games.paul.entities.renderers.RenderEntity;
 import net.nodium.games.paul.entities.renderers.RenderGround;
+import net.nodium.games.paul.entities.renderers.RenderLazor;
 import net.nodium.games.paul.entities.renderers.RenderOofCube;
 import net.nodium.games.paul.gl.*;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
@@ -73,7 +71,9 @@ public class Renderer {
         // clear the framebuffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        camera.render();
+        if(!game.isPaused()) {
+            camera.render();
+        }
 
         shader.start();
         shader.loadViewMatrix(camera);
@@ -89,6 +89,8 @@ public class Renderer {
                 }
             }
         }
+
+//        camera.entityCamera.hitbox.render(null, projMatrix, camera);
 
         game.guiManager.render();
 
@@ -106,6 +108,7 @@ public class Renderer {
     private void initEntityRenderMap() {
         entityRendererMap.put(EntityOofCube.class, new RenderOofCube(game.assetLoader, shader));
         entityRendererMap.put(EntityGround.class, new RenderGround(game.assetLoader, shader));
+        entityRendererMap.put(EntityLazor.class, new RenderLazor(game.assetLoader, shader));
     }
 
     private RenderEntity getEntityRenderer(Entity entity) {

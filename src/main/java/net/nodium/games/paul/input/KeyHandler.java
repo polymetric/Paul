@@ -6,7 +6,6 @@ import net.nodium.games.paul.entities.EntityOofCube;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 
 public class KeyHandler implements GLFWKeyCallbackI {
     private Game game;
@@ -32,10 +31,11 @@ public class KeyHandler implements GLFWKeyCallbackI {
         if (key == GLFW_KEY_S) { game.camera.isMovingBwd = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_A) { game.camera.isMovingLeft = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_D) { game.camera.isMovingRight = action == GLFW_RELEASE ? false : true; }
-        if (key == GLFW_KEY_SPACE) { game.camera.entityCamera.jump(); }
+        if (key == GLFW_KEY_SPACE) { game.camera.boundEntity.jump(); }
+        if (key == GLFW_KEY_R && action == GLFW_PRESS) { game.camera.boundEntity.setPos(0, 2, 0); }
 
         // fire lazor
-        if (key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS ) { game.camera.entityCamera.isFiringLazor = true; }
+        if (key == GLFW_KEY_F && action == GLFW_PRESS ) { game.camera.boundEntity.fireLazor(); }
 
         // debug
         if (key == GLFW_KEY_T && action == GLFW_PRESS) {

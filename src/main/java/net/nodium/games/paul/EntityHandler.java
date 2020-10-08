@@ -2,7 +2,7 @@ package net.nodium.games.paul;
 
 import net.nodium.games.paul.entities.Entity;
 import net.nodium.games.paul.entities.EntityGround;
-import net.nodium.games.paul.entities.EntityOofCube;
+import net.nodium.games.paul.entities.EntityLazor;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,20 +18,20 @@ public class EntityHandler {
     }
 
     public void init() {
-        game.camera.entityCamera.setPos(0, 2, 0);
+        game.camera.boundEntity.setPos(0, 2, 0);
 
         new EntityGround(this).setPos(0, 0, 0);
 
-        new EntityOofCube(this).setPos(0, 2, 0);
+//        new EntityOofCube(this).setPos(0, 2, 0);f
 
-        for (int i = 0; i < 100; i++) {
-            new EntityOofCube(this)
-                    .setPos(
-                            (rand.nextFloat() - rand.nextFloat()) * 5,
-                            rand.nextFloat() * 10000 + 10,
-                            (rand.nextFloat() - rand.nextFloat()) * 5
-                    );
-        }
+//        for (int i = 0; i < 100; i++) {
+//            new EntityOofCube(this)
+//                    .setPos(
+//                            (rand.nextFloat() - rand.nextFloat()) * 2.5f,
+//                            rand.nextFloat() * 10000 + 10,
+//                            (rand.nextFloat() - rand.nextFloat()) * 2.5f
+//                    );
+//        }
     }
 
     public void tick() {

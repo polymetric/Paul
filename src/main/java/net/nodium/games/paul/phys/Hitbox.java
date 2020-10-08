@@ -15,7 +15,9 @@ public class Hitbox {
     public Vector3f pos;
     public Vector3f size = new Vector3f();
     public Vector3f offset = new Vector3f();
-    public Bounds bounds = new Bounds();
+    private Bounds bounds = new Bounds();
+
+    private boolean boundsCalculatedThisTick = false;
 
     public Hitbox(Vector3f pos, float sizeX, float sizeY, float sizeZ) {
         this.pos = pos;
@@ -24,7 +26,13 @@ public class Hitbox {
         size.z = sizeZ;
     }
 
-    public void calcBounds() {
+    public void tick() {
+        boundsCalculatedThisTick = false;
+    }
+
+    public Bounds getBounds() {
+        if (boundsCalculatedThisTick) return bounds;
+
         bounds.min.x = pos.x - size.x / 2;
         bounds.min.y = pos.y - size.y / 2;
         bounds.min.z = pos.z - size.z / 2;
@@ -32,19 +40,27 @@ public class Hitbox {
         bounds.max.x = pos.x + size.x / 2;
         bounds.max.y = pos.y + size.y / 2;
         bounds.max.z = pos.z + size.z / 2;
+
+        boundsCalculatedThisTick = true;
+        return bounds;
     }
 
-    public Intersection intersectsWith(Hitbox other) {
-        this.calcBounds();
-        other.calcBounds();
+    public boolean intersectsWith(Hitbox other) {
+        Bounds a = this.getBounds();
+        Bounds b = other.getBounds();
 
-        Intersection inter = new Intersection();
+        float d1x = b.min.x - a.max.x;
+        float d1y = b.min.y - a.max.y;
+        float d1z = b.min.z - a.max.z;
 
-        if (bounds.max.x > other.bounds.min.x && bounds.min.x < other.bounds.max.x) inter.onX = true;
-        if (bounds.max.y > other.bounds.min.y && bounds.min.y < other.bounds.max.y) inter.onY = true;
-        if (bounds.max.z > other.bounds.min.z && bounds.min.z < other.bounds.max.z) inter.onZ = true;
+        float d2x = a.min.x - b.max.x;
+        float d2y = a.min.y - b.max.y;
+        float d2z = a.min.z - b.max.z;
+        
+        if (d1x > 0f || d1y > 0f || d1z > 0f) { return false; }
+        if (d2x > 0f || d2y > 0f || d2z > 0f) { return false; }
 
-        return inter;
+        return true;
     }
 
     private static int vao = GL46.glGenVertexArrays();
@@ -129,7 +145,9 @@ public class Hitbox {
 //        GL46.glDrawArrays(GL46.GL_POINTS, 0, 6);
 //        GL46.glDrawArrays(GL46.GL_LINE_STRIP, 0, 8);
         GL46.glLineWidth(5);
+        GL46.glDisable(GL46.GL_DEPTH_TEST);
         GL46.glDrawElements(GL46.GL_LINES, 24, GL46.GL_UNSIGNED_INT, 0);
+        GL46.glEnable(GL46.GL_DEPTH_TEST);
 
         GL46.glDisableVertexAttribArray(0);
         GL46.glBindVertexArray(0);
@@ -170,16 +188,6 @@ public class Hitbox {
                     max.y,
                     max.z
             );
-        }
-    }
-
-    public class Intersection {
-        public boolean onX = false;
-        public boolean onY = false;
-        public boolean onZ = false;
-
-        public boolean all() {
-            return onX && onY && onZ;
         }
     }
 }
