@@ -3,6 +3,7 @@ package net.nodium.games.paul;
 import net.nodium.games.paul.entities.Entity;
 import net.nodium.games.paul.entities.EntityGround;
 import net.nodium.games.paul.entities.EntityLazor;
+import net.nodium.games.paul.entities.EntityOofCube;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,7 +23,7 @@ public class EntityHandler {
 
         new EntityGround(this).setPos(0, 0, 0);
 
-//        new EntityOofCube(this).setPos(0, 2, 0);f
+        new EntityOofCube(this).setPos(0, 2, 0);
 
 //        for (int i = 0; i < 100; i++) {
 //            new EntityOofCube(this)

@@ -13,9 +13,9 @@ public class EntityLazor extends Entity {
         enableGravity = false;
 
         setPos(
-                camera.pos.x,
-                camera.pos.y,
-                camera.pos.z
+                camera.pos.x + camera.offset.x,
+                camera.pos.y + camera.offset.y,
+                camera.pos.z + camera.offset.z
         );
 
         setRot(
@@ -35,7 +35,6 @@ public class EntityLazor extends Entity {
         age++;
 
         if (age > .5 / getLogicDelta()) {
-            System.out.printf("deleted lazor after %d ticks\n", age);
             this.kill();
         }
 

@@ -40,4 +40,13 @@ public class EntityCamera extends Entity {
     public boolean isRenderable() {
         return false;
     }
+
+    @Override
+    public void kill() {
+        respawn();
+    }
+
+    public void respawn() {
+        this.setPos(0, 2, 0);
+    }
 }
