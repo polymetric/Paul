@@ -12,6 +12,7 @@ public class EntityLazor extends Entity {
 
     private float lazorSpeed = 100F;
     private int age = 0;
+    private float lifespan = 1;
 
     public EntityLazor(EntityHandler entityHandler, Camera camera, Entity sender) {
         super(entityHandler);
@@ -42,9 +43,13 @@ public class EntityLazor extends Entity {
 
     @Override
     public void onCollide(Entity other) {
+        if (other.equals(sender)) { return; }
+
         switch (MathUtils.getCardinalDir(other.getDirectionRelativeTo(this))) {
 
         }
+
+        other.hurt(this, 10);
     }
 
     @Override
@@ -54,8 +59,9 @@ public class EntityLazor extends Entity {
 //        Vector2f ang = MathUtils.getAngleBetweenPoints(sender.pos, this.pos);
 //        System.out.printf("%38s %12.3f %12.3f\n", "", ang.x, ang.y);
 
-        if (age > .5 / getLogicDelta()) {
-//            this.kill();
+//        System.out.println(age);
+        if (age > lifespan / getLogicDelta()) {
+            this.kill();
         }
 
         super.tick();

@@ -42,6 +42,7 @@ public abstract class Entity {
     private boolean isDead = false;
     private boolean onGround = false;
     public boolean isJumping = false;
+    public boolean invulnerable = false;
 
     public Entity(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
@@ -186,11 +187,15 @@ public abstract class Entity {
         }
     }
 
-    // setters
-
     public void kill() {
+        if (invulnerable) { return; }
         isDead = true;
     }
+    public void hurt(Entity sender, int damage) {
+        this.health -= damage;
+    }
+
+    // setters
 
     public Entity setPos(float x, float y, float z) {
         this.pos.x = x;

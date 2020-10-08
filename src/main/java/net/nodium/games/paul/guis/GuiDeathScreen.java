@@ -6,7 +6,7 @@ public class GuiDeathScreen extends GuiString {
     private GuiManager guiManager;
 
     private int age = 0;
-    private int lifespan;
+    private float lifespan;
 
     public GuiDeathScreen(GuiManager guiManager, TextRenderer textRenderer) {
         super(guiManager, textRenderer);
@@ -15,7 +15,7 @@ public class GuiDeathScreen extends GuiString {
         setText("you now have The dead");
         setScale(4);
         setPos(-.9f, 0);
-        lifespan = 60;
+        lifespan = 3;
 
         disable();
     }
@@ -26,10 +26,10 @@ public class GuiDeathScreen extends GuiString {
     }
 
     public void tick() {
-        System.out.println(age);
-        if (age > lifespan) {
+        age++;
+
+        if (age > lifespan / getLogicDelta()) {
             this.disable();
         }
-        age++;
     }
 }

@@ -13,6 +13,8 @@ public class EntityGround extends Entity {
         enableAirResistance = false;
         enableVelocity = false;
 
+        invulnerable = true;
+
         hitbox = new Hitbox(pos, 10, 1e-3f, 10);
     }
 
