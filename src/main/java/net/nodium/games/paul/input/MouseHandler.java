@@ -45,9 +45,6 @@ public class MouseHandler {
         deltaX = mouseX - display.getWidth() / 2;
         deltaY = mouseY - display.getHeight() / 2;
 
-        prevX = mouseX;
-        prevY = mouseY;
-
         glfwSetCursorPos(display.getWindowID(), (double) display.getWidth() / 2, (double) display.getHeight() / 2);
     }
 }

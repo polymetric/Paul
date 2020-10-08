@@ -25,7 +25,7 @@ public class EntityCamera extends Entity {
     @Override
     public void tick() {
         if (isFiringLazor) {
-            new EntityLazor(entityHandler, camera);
+            new EntityLazor(entityHandler, camera, camera.boundEntity);
             isFiringLazor = false;
         }
 

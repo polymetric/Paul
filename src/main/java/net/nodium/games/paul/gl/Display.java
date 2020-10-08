@@ -1,5 +1,6 @@
 package net.nodium.games.paul.gl;
 
+import net.nodium.games.paul.Game;
 import net.nodium.games.paul.input.KeyHandler;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWFramebufferSizeCallbackI;
@@ -15,13 +16,16 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Display {
+    private Game game;
+
     private long windowID;
     private int width;
     private int height;
     private String title;
     private KeyHandler keyHandler;
 
-    public Display(int width, int height, String title) {
+    public Display(Game game, int width, int height, String title) {
+        this.game = game;
         this.width = width;
         this.height = height;
         this.title = title;
@@ -124,6 +128,7 @@ public class Display {
 
     public void setSize(int width, int height) {
         GL46.glViewport(0, 0, width, height);
+        game.renderer.createProjMatrix();
         this.width = width;
         this.height = height;
     }

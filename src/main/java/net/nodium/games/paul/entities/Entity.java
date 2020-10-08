@@ -3,7 +3,9 @@ package net.nodium.games.paul.entities;
 import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.math.MathUtils;
+import net.nodium.games.paul.phys.CardinalDirection;
 import net.nodium.games.paul.phys.Hitbox;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public abstract class Entity {
@@ -39,7 +41,6 @@ public abstract class Entity {
 
     private boolean isDead = false;
     private boolean onGround = false;
-    private boolean isColliding = false;
 
     public Entity(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
@@ -52,12 +53,12 @@ public abstract class Entity {
     public void init() {}
 
     public void tick() {
+        tickCollisions();
+
         tickVelocity();
         tickGravity();
         tickAirResistance();
         tickFriction();
-
-        tickCollisions();
 
         if (health <= 0) {
             kill();
@@ -122,29 +123,52 @@ public abstract class Entity {
     private void tickCollisions() {
         if (hitbox == null) { return; }
         hitbox.tick();
-        boolean collidesThisTick = false;
         boolean touchesGroundThisTick = false;
 
         for (Entity other : entityHandler.entities) {
             if (other.equals(this)) { continue; }
-            if (this.hitbox == null | other.hitbox == null) { continue; }
+            if (hitbox == null | other.hitbox == null) { continue; }
 
 //            if (other instanceof EntityGround) {
             if (other instanceof Entity) {
-                if (this.hitbox.intersectsWith(other.hitbox)) {
+                if (hitbox.intersectsWith(other.hitbox)) {
+//                    onCollide(other);
+
 //                    this.posVel.x = 0;
-                    this.posVel.y = 0;
+//                    this.posVel.y = 0;
 //                    this.posVel.z = 0;
-                    collidesThisTick = true;
-                    this.isColliding = true;
                     touchesGroundThisTick = true;
-                    this.onGround = true;
+                    onGround = true;
                 }
             }
         }
 
-        if (!touchesGroundThisTick) { this.onGround = false; }
-        if (!collidesThisTick) { this.isColliding = false; }
+        if (!touchesGroundThisTick) { onGround = false; }
+    }
+
+    public void onCollide(Entity other) {
+        if (this instanceof EntityGround) return;
+        if (other instanceof EntityGround) posVel.y = Math.min(posVel.y, 0);
+
+//        CardinalDirection dirFrom = MathUtils.getCardinalDir(MathUtils.getAngleBetweenPoints(this.pos, other.pos));
+        CardinalDirection dirFrom = hitbox.intersectDir(other.hitbox);
+
+        switch (dirFrom) {
+            case NEG_Z: posVel.z = Math.max(posVel.z, 0); break;
+            case POS_X: posVel.x = Math.min(posVel.x, 0); break;
+            case POS_Z: posVel.z = Math.min(posVel.z, 0); break;
+            case NEG_X: posVel.x = Math.max(posVel.x, 0); break;
+            case POS_Y: posVel.y = Math.min(posVel.y, 0); break;
+            case NEG_Y: posVel.y = Math.max(posVel.y, 0); break;
+        }
+
+        if (this instanceof EntityCamera) {
+            System.out.printf("player collided with %s from %s\n", other, dirFrom);
+        }
+    }
+
+    public Vector2f getDirectionRelativeTo(Entity other) {
+        return MathUtils.getAngleBetweenPoints(this.pos, other.pos);
     }
 
     public void moveHorizAngle(double angle) {

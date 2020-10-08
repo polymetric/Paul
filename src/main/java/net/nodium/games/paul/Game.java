@@ -22,7 +22,7 @@ public class Game {
     public Game(String[] args) {
         keyHandler = new KeyHandler(this);
 
-        display = new Display(1600, 864, "Paul");
+        display = new Display(this, 1600, 864, "Paul");
         display.setKeyHandler(keyHandler);
         display.createWindow();
         mouseHandler = new MouseHandler(this, display);

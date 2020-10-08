@@ -4,6 +4,7 @@ import net.nodium.games.paul.Launcher;
 import net.nodium.games.paul.entities.Camera;
 import net.nodium.games.paul.gl.Display;
 import net.nodium.games.paul.gl.textures.Texture;
+import net.nodium.games.paul.phys.CardinalDirection;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -68,7 +69,6 @@ public class MathUtils {
         float xScale = yScale / aspectRatio;
         float frustum_length = farPlane - nearPlane;
 
-        projMatrix = new Matrix4f();
         projMatrix.m00(xScale);
         projMatrix.m11(yScale);
         projMatrix.m22(-((farPlane + nearPlane) / frustum_length));
@@ -85,5 +85,50 @@ public class MathUtils {
 
     public static float xyzDistance(Vector3f a, Vector3f b) {
         return (float) Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2) + Math.pow(b.z - a.z, 2));
+    }
+
+    // returns an alpha and beta angle between two points in 3d space
+    public static Vector2f getAngleBetweenPoints(Vector3f a, Vector3f b) {
+        return new Vector2f(
+                (float) Math.toDegrees(Math.atan2(a.z - b.z, a.y - b.y)),
+                (float) Math.toDegrees(Math.atan2(a.x - b.x, a.z - b.z))
+        );
+    }
+
+    // this returns the facing direction, including the possibility of up and down
+    public static CardinalDirection getCardinalDir(Vector2f dir) {
+        if (dir.x < -45) { return CardinalDirection.POS_Y; }
+        if (dir.x > 45) { return CardinalDirection.NEG_Y; }
+
+        return getCardinalYaw(dir.y);
+    }
+
+    // this returns the facing direction of just a yaw angle
+    public static CardinalDirection getCardinalYaw(float yaw) {
+        switch (quantizeAngle(yaw))  {
+            case 0: return CardinalDirection.NEG_Z;
+            case 1: return CardinalDirection.POS_X;
+            case 2: return CardinalDirection.POS_Z;
+            case 3: return CardinalDirection.NEG_X;
+            default: throw new AssertionError();
+        }
+    }
+
+    public static int quantizeAngle(float ang) {
+        return (int) (normalizeAngle(ang + 45) + 180) / 90;
+    }
+
+    static float normalizeAngle(float yaw) {
+        yaw = ((yaw + 180) % 360) - 180;
+        if (yaw < -180) yaw += 360;
+        return yaw;
+    }
+
+    public Vector3f vecFromAngle(Vector2f ang) {
+        return new Vector3f(
+                (float) (Math.cos(Math.toRadians(ang.y - 90)) * Math.cos(Math.toRadians(ang.x))),
+                (float) (Math.sin(Math.toRadians(ang.x - 180))),
+                (float) (Math.sin(Math.toRadians(ang.x - 90)) * Math.cos(Math.toRadians(ang.x)))
+        );
     }
 }

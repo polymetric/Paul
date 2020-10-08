@@ -15,4 +15,9 @@ public class EntityGround extends Entity {
 
         hitbox = new Hitbox(pos, 10, 1e-3f, 10);
     }
+
+    @Override
+    public void onCollide(Entity other) {
+        other.posVel.y = 0;
+    }
 }

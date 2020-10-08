@@ -8,6 +8,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL46;
 
+import javax.smartcardio.Card;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
@@ -61,6 +62,23 @@ public class Hitbox {
         if (d2x > 0f || d2y > 0f || d2z > 0f) { return false; }
 
         return true;
+    }
+
+    public CardinalDirection intersectDir(Hitbox other) {
+        Bounds a = this.getBounds();
+        Bounds b = other.getBounds();
+
+        float d1x = b.min.x - a.max.x;
+        float d1y = b.min.y - a.max.y;
+        float d1z = b.min.z - a.max.z;
+
+        float d2x = a.min.x - b.max.x;
+        float d2y = a.min.y - b.max.y;
+        float d2z = a.min.z - b.max.z;
+
+        System.out.println(d1x);
+
+        return CardinalDirection.NEG_X;
     }
 
     private static int vao = GL46.glGenVertexArrays();

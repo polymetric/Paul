@@ -1,23 +1,19 @@
 package net.nodium.games.paul;
 
 import net.nodium.games.paul.entities.*;
+import net.nodium.games.paul.entities.models.ModelCube;
+import net.nodium.games.paul.entities.models.ModelEntity;
 import net.nodium.games.paul.entities.renderers.RenderEntity;
 import net.nodium.games.paul.entities.renderers.RenderGround;
 import net.nodium.games.paul.entities.renderers.RenderLazor;
 import net.nodium.games.paul.entities.renderers.RenderOofCube;
 import net.nodium.games.paul.gl.*;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
-import net.nodium.games.paul.gl.shaders.GLShaderDebug;
 import net.nodium.games.paul.math.MathUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL46;
 
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -27,13 +23,13 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 public class Renderer {
     private Game game;
     private Display display;
-    private GLShaderBase shader = new GLShaderBase();
+    private GLShaderBase shaderBase = new GLShaderBase();
     private Camera camera;
 
     private HashMap<Class, RenderEntity> entityRendererMap;
 
     public Matrix4f projMatrix;
-    public final float FOV = 90;
+    public final float FOV_VERT = 90;
     public final float NEAR_PLANE = 0.001f;
     public final float FAR_PLANE = 1000f;
 
@@ -46,16 +42,20 @@ public class Renderer {
         entityRendererMap = new HashMap();
         initEntityRenderMap();
 
-        projMatrix = MathUtils.createProjMatrix(display, FOV, NEAR_PLANE, FAR_PLANE);
-
-        shader.start();
-        shader.loadProjMatrix(projMatrix);
-        shader.stop();
+        createProjMatrix();
     }
 
     public void init(Display display, Camera camera) {
         this.display = display;
         this.camera = camera;
+    }
+
+    public void createProjMatrix() {
+        projMatrix = MathUtils.createProjMatrix(display, FOV_VERT, NEAR_PLANE, FAR_PLANE);
+
+        shaderBase.start();
+        shaderBase.loadProjMatrix(projMatrix);
+        shaderBase.stop();
     }
 
     public void render() {
@@ -75,9 +75,9 @@ public class Renderer {
             camera.render();
         }
 
-        shader.start();
-        shader.loadViewMatrix(camera);
-        shader.stop();
+        shaderBase.start();
+        shaderBase.loadViewMatrix(camera);
+        shaderBase.stop();
 
 //         render stuff here
         for (Entity e : game.entityHandler.entities) {
@@ -85,12 +85,12 @@ public class Renderer {
                 RenderEntity renderEntity = getEntityRenderer(e);
                 renderEntity.render(e, renderEntity.modelEntity);
                 if (e.hitbox != null) {
-//                    e.hitbox.render(null, projMatrix, camera);
+                    e.hitbox.render(null, projMatrix, camera);
                 }
             }
         }
 
-//        camera.entityCamera.hitbox.render(null, projMatrix, camera);
+        camera.boundEntity.hitbox.render(null, projMatrix, camera);
 
         game.guiManager.render();
 
@@ -106,9 +106,9 @@ public class Renderer {
     }
 
     private void initEntityRenderMap() {
-        entityRendererMap.put(EntityOofCube.class, new RenderOofCube(game.assetLoader, shader));
-        entityRendererMap.put(EntityGround.class, new RenderGround(game.assetLoader, shader));
-        entityRendererMap.put(EntityLazor.class, new RenderLazor(game.assetLoader, shader));
+        entityRendererMap.put(EntityOofCube.class, new RenderOofCube(game.assetLoader, shaderBase));
+        entityRendererMap.put(EntityGround.class, new RenderGround(game.assetLoader, shaderBase));
+        entityRendererMap.put(EntityLazor.class, new RenderLazor(game.assetLoader, shaderBase));
     }
 
     private RenderEntity getEntityRenderer(Entity entity) {

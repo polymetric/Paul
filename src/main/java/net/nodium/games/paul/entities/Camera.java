@@ -2,7 +2,9 @@ package net.nodium.games.paul.entities;
 
 import net.nodium.games.paul.EntityHandler;
 import net.nodium.games.paul.input.MouseHandler;
+import net.nodium.games.paul.math.MathUtils;
 import net.nodium.games.paul.sound.SoundListener;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Camera {
@@ -60,6 +62,7 @@ public class Camera {
 
     private void handleMouseLook() {
         // TODO bind rotation to boundEntity
+        System.out.printf("%12.0f %12.0f %12.0f %12.3f %12.3f %s\n", pos.x, pos.y, pos.z, pitch, yaw, MathUtils.getCardinalDir(new Vector2f(pitch, yaw)));
 
         pitch += mouseHandler.deltaY * 0.15;
         yaw += mouseHandler.deltaX * 0.15;
