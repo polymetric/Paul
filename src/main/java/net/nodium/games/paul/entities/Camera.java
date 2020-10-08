@@ -62,7 +62,7 @@ public class Camera {
 
     private void handleMouseLook() {
         // TODO bind rotation to boundEntity
-        System.out.printf("%12.0f %12.0f %12.0f %12.3f %12.3f %s\n", pos.x, pos.y, pos.z, pitch, yaw, MathUtils.getCardinalDir(new Vector2f(pitch, yaw)));
+//        System.out.printf("%12.0f %12.0f %12.0f %12.3f %12.3f %s\n", pos.x, pos.y, pos.z, pitch, yaw, MathUtils.getCardinalDir(new Vector2f(pitch, yaw)));
 
         pitch += mouseHandler.deltaY * 0.15;
         yaw += mouseHandler.deltaX * 0.15;
@@ -77,18 +77,10 @@ public class Camera {
 
     private void handleKeyMove() {
         if (!boundEntity.onGround()) return;
-        if (isMovingFwd) {
-            boundEntity.moveHorizAngle(yaw);
-        }
-        if (isMovingBwd) {
-            boundEntity.moveHorizAngle(yaw + 180);
-        }
-        if (isMovingRight) {
-            boundEntity.moveHorizAngle(yaw + 90);
-        }
-        if (isMovingLeft) {
-            boundEntity.moveHorizAngle(yaw - 90);
-        }
+        if (isMovingFwd) { boundEntity.moveHorizAngle(yaw); }
+        if (isMovingBwd) { boundEntity.moveHorizAngle(yaw + 180); }
+        if (isMovingRight) { boundEntity.moveHorizAngle(yaw + 90); }
+        if (isMovingLeft) { boundEntity.moveHorizAngle(yaw - 90); }
 //        if (isMovingUp) {
 //            entityCamera.posVel.y += entityCamera.speed * entityCamera.getLogicDelta();
 //        }

@@ -1,12 +1,13 @@
 package net.nodium.games.paul.entities.models;
 
 
-import net.nodium.games.paul.entities.renderers.RenderEntity;
+import net.nodium.games.paul.AssetLoader;
+import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.gl.textures.Texture;
 
 public class ModelPlaneHorizontal extends ModelEntity {
-    public ModelPlaneHorizontal(RenderEntity entityRenderer, Texture texture, float width, float depth, boolean centered) {
-        super(entityRenderer);
+    public ModelPlaneHorizontal(AssetLoader assetLoader, GLShaderBase shader, Texture texture, float width, float depth, boolean centered) {
+        super(assetLoader);
 
         float[] vertices = {
               //width, height, depth,
@@ -42,6 +43,6 @@ public class ModelPlaneHorizontal extends ModelEntity {
                 0, 0,
         };
 
-        super.model = entityRenderer.assetLoader.loadToVAO(vertices, indices, textureCoords, texture, entityRenderer.shader);
+        super.model = assetLoader.loadToVAO(vertices, indices, textureCoords, texture, shader);
     }
 }

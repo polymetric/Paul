@@ -57,8 +57,7 @@ public class EntityHandler {
         }
     }
 
-    public float temp() {
-        Random rand = new Random();
-        return rand.nextFloat() * 100F;
+    public void playerDied() {
+        game.guiManager.deathScreen.playerDied();
     }
 }

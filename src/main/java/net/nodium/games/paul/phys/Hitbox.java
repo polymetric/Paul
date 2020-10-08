@@ -76,8 +76,6 @@ public class Hitbox {
         float d2y = a.min.y - b.max.y;
         float d2z = a.min.z - b.max.z;
 
-        System.out.println(d1x);
-
         return CardinalDirection.NEG_X;
     }
 

@@ -27,7 +27,11 @@ public class RenderGui {
 
     public RenderGui(AssetLoader assetLoader, Display display) {
         this.display = display;
-        float[] positions = {-1, 1, -1, -1, 1, 1, 1, -1};
+        float[] positions = {
+                -1,  1,
+                -1, -1,
+                 1,  1,
+                 1, -1};
         quad = assetLoader.loadToVAO(positions);
     }
 
@@ -41,6 +45,8 @@ public class RenderGui {
         preFrame();
 
         for (GuiTexture gui : guis) {
+            if (!gui.isActive()) { continue; }
+
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL13.glBindTexture(GL13.GL_TEXTURE_2D, gui.texture.getTextureID());
 
@@ -68,6 +74,8 @@ public class RenderGui {
         GL13.glBindTexture(GL13.GL_TEXTURE_2D, textRenderer.texture.getTextureID());
 
         for (GuiString gui : guiStrings) {
+            if(!gui.isActive()) { continue; }
+
             String text = gui.text;
 
             shaderGuiString.loadTextureSize(textRenderer.imgWidth);
@@ -75,7 +83,7 @@ public class RenderGui {
 
             for (int i = 0; i < text.length(); i++) {
                 Matrix4f matrix = MathUtils.createStringTransformationMatrix(display, textRenderer.texture, textRenderer.charWidth, gui.pos, gui.scale);
-                matrix.translate(new Vector3f(i/4f, 0, 0));
+                matrix.translate(new Vector3f(i / 4f, 0, 0));
                 matrix.scale(1f / textRenderer.charWidth);
                 shaderGuiString.loadTransMatrix(matrix);
 

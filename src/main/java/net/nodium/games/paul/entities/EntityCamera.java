@@ -43,6 +43,7 @@ public class EntityCamera extends Entity {
 
     @Override
     public void kill() {
+        entityHandler.playerDied();
         respawn();
     }
 

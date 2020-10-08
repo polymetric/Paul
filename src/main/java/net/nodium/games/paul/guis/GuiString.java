@@ -5,7 +5,6 @@ import net.nodium.games.paul.gl.textures.Texture;
 import org.joml.Vector2f;
 
 public class GuiString extends GuiTexture {
-    private GuiManager guiManager;
     public TextRenderer textRenderer;
 
     public String text;
@@ -13,6 +12,10 @@ public class GuiString extends GuiTexture {
     public GuiString(GuiManager guiManager, TextRenderer textRenderer) {
         super(guiManager);
         this.textRenderer = textRenderer;
+    }
+
+    public void tick() {
+
     }
 
     public GuiString setText(String text) {

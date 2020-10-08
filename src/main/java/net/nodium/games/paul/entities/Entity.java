@@ -41,6 +41,7 @@ public abstract class Entity {
 
     private boolean isDead = false;
     private boolean onGround = false;
+    public boolean isJumping = false;
 
     public Entity(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
@@ -53,6 +54,8 @@ public abstract class Entity {
     public void init() {}
 
     public void tick() {
+        if (isJumping) jump();
+
         tickCollisions();
 
         tickVelocity();
@@ -132,7 +135,7 @@ public abstract class Entity {
 //            if (other instanceof EntityGround) {
             if (other instanceof Entity) {
                 if (hitbox.intersectsWith(other.hitbox)) {
-//                    onCollide(other);
+                    onCollide(other);
 
 //                    this.posVel.x = 0;
 //                    this.posVel.y = 0;
@@ -147,23 +150,23 @@ public abstract class Entity {
     }
 
     public void onCollide(Entity other) {
-        if (this instanceof EntityGround) return;
-        if (other instanceof EntityGround) posVel.y = Math.min(posVel.y, 0);
+        if (this instanceof EntityGround) { return; }
+        if (other instanceof EntityGround) { posVel.y = Math.max(posVel.y, 0); return; }
 
 //        CardinalDirection dirFrom = MathUtils.getCardinalDir(MathUtils.getAngleBetweenPoints(this.pos, other.pos));
         CardinalDirection dirFrom = hitbox.intersectDir(other.hitbox);
 
         switch (dirFrom) {
-            case NEG_Z: posVel.z = Math.max(posVel.z, 0); break;
-            case POS_X: posVel.x = Math.min(posVel.x, 0); break;
-            case POS_Z: posVel.z = Math.min(posVel.z, 0); break;
-            case NEG_X: posVel.x = Math.max(posVel.x, 0); break;
-            case POS_Y: posVel.y = Math.min(posVel.y, 0); break;
-            case NEG_Y: posVel.y = Math.max(posVel.y, 0); break;
+//            case NEG_Z: posVel.z = Math.max(posVel.z, 0); break;
+//            case POS_X: posVel.x = Math.min(posVel.x, 0); break;
+//            case POS_Z: posVel.z = Math.min(posVel.z, 0); break;
+//            case NEG_X: posVel.x = Math.max(posVel.x, 0); break;
+//            case POS_Y: posVel.y = Math.min(posVel.y, 0); break;
+//            case NEG_Y: posVel.y = Math.max(posVel.y, 0); break;
         }
 
         if (this instanceof EntityCamera) {
-            System.out.printf("player collided with %s from %s\n", other, dirFrom);
+//            System.out.printf("player collided with %s from %s\n", other, dirFrom);
         }
     }
 

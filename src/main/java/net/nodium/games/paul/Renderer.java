@@ -79,6 +79,8 @@ public class Renderer {
         shaderBase.loadViewMatrix(camera);
         shaderBase.stop();
 
+
+
 //         render stuff here
         for (Entity e : game.entityHandler.entities) {
             if (e.isRenderable()) {

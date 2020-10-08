@@ -51,8 +51,8 @@ public class EntityLazor extends Entity {
     public void tick() {
         age++;
 
-        Vector2f ang = MathUtils.getAngleBetweenPoints(sender.pos, this.pos);
-        System.out.printf("%38s %12.3f %12.3f\n", "", ang.x, ang.y);
+//        Vector2f ang = MathUtils.getAngleBetweenPoints(sender.pos, this.pos);
+//        System.out.printf("%38s %12.3f %12.3f\n", "", ang.x, ang.y);
 
         if (age > .5 / getLogicDelta()) {
 //            this.kill();

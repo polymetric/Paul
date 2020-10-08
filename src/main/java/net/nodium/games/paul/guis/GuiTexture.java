@@ -16,6 +16,16 @@ public class GuiTexture {
         guiManager.add(this);
     }
 
+    private boolean shouldBeDeleted = false;
+    public void delete() {
+        shouldBeDeleted = true;
+    }
+    public boolean shouldBeDeleted() { return shouldBeDeleted; }
+
+    public void tick() {
+
+    }
+
     // setters
 
     public GuiTexture setTexture(Texture texture) {
@@ -32,5 +42,14 @@ public class GuiTexture {
     public GuiTexture setScale(float scale) {
         this.scale = scale;
         return this;
+    }
+
+    private boolean active = true;
+    public void enable() { active = true; }
+    public void disable() { active = false; }
+    public boolean isActive() { return active; }
+
+    public double getLogicDelta() {
+        return guiManager.game.gameLoop.getLogicDelta();
     }
 }

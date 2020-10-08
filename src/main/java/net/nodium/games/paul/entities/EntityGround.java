@@ -18,6 +18,6 @@ public class EntityGround extends Entity {
 
     @Override
     public void onCollide(Entity other) {
-        other.posVel.y = 0;
+        other.posVel.y = Math.max(other.posVel.y, 0);
     }
 }

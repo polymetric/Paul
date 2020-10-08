@@ -32,7 +32,7 @@ public class Game {
 
         gameLoop = new GameLoop(this);
         entityHandler = new EntityHandler(this);
-        guiManager = new GuiManager(assetLoader, display);
+        guiManager = new GuiManager(this, assetLoader, display);
 
         camera = new Camera(entityHandler, mouseHandler);
     }
@@ -62,6 +62,7 @@ public class Game {
 //        if (isPaused()) return;
 
         camera.tick();
+        guiManager.tick();
         entityHandler.tick();
     }
 

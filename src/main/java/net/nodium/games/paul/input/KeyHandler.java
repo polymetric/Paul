@@ -31,7 +31,7 @@ public class KeyHandler implements GLFWKeyCallbackI {
         if (key == GLFW_KEY_S) { game.camera.isMovingBwd = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_A) { game.camera.isMovingLeft = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_D) { game.camera.isMovingRight = action == GLFW_RELEASE ? false : true; }
-        if (key == GLFW_KEY_SPACE) { game.camera.boundEntity.jump(); }
+        if (key == GLFW_KEY_SPACE) { game.camera.boundEntity.isJumping = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_R && action == GLFW_PRESS) { game.camera.boundEntity.setPos(0, 2, 0); }
 
         // fire lazor
@@ -41,7 +41,7 @@ public class KeyHandler implements GLFWKeyCallbackI {
         if (key == GLFW_KEY_T && action == GLFW_PRESS) {
             for (Entity e : game.entityHandler.entities) {
                 if (e instanceof EntityOofCube) {
-                    ((EntityOofCube) e).jump();
+                    e.jump();
                 }
             }
         }
