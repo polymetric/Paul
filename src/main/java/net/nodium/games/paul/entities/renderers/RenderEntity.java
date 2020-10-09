@@ -3,10 +3,8 @@ package net.nodium.games.paul.entities.renderers;
 import net.nodium.games.paul.AssetLoader;
 import net.nodium.games.paul.entities.Entity;
 import net.nodium.games.paul.entities.models.ModelEntity;
-import net.nodium.games.paul.gl.shaders.GLShader;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.math.MathUtils;
-import org.joml.Vector3f;
 
 public class RenderEntity {
     public AssetLoader assetLoader;

@@ -1,12 +1,7 @@
 package net.nodium.games.paul;
 
 import net.nodium.games.paul.entities.*;
-import net.nodium.games.paul.entities.models.ModelCube;
-import net.nodium.games.paul.entities.models.ModelEntity;
-import net.nodium.games.paul.entities.renderers.RenderEntity;
-import net.nodium.games.paul.entities.renderers.RenderGround;
-import net.nodium.games.paul.entities.renderers.RenderLazor;
-import net.nodium.games.paul.entities.renderers.RenderOofCube;
+import net.nodium.games.paul.entities.renderers.*;
 import net.nodium.games.paul.gl.*;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.math.MathUtils;
@@ -25,6 +20,7 @@ public class Renderer {
     private Display display;
     private GLShaderBase shaderBase = new GLShaderBase();
     private Camera camera;
+    private RenderSkybox skybox;
 
     private HashMap<Class, RenderEntity> entityRendererMap;
 
@@ -38,6 +34,8 @@ public class Renderer {
     public Renderer(Game game, Display display) {
         this.game = game;
         this.display = display;
+
+        skybox = new RenderSkybox(game.assetLoader, shaderBase);
 
         entityRendererMap = new HashMap();
         initEntityRenderMap();
@@ -59,7 +57,6 @@ public class Renderer {
     }
 
     public void render() {
-        GL11.glEnable(GL_DEPTH_TEST);
 
         // set the clear color
         double mult = 5D;
@@ -71,15 +68,22 @@ public class Renderer {
         // clear the framebuffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        shaderBase.start();
+        shaderBase.loadViewMatrix(MathUtils.createViewMatrixNoPos(camera));
+        shaderBase.stop();
+
+        glDisable(GL_DEPTH_TEST);
+        skybox.render(null, skybox.modelEntity);
+
         if(!game.isPaused()) {
             camera.render();
         }
 
         shaderBase.start();
-        shaderBase.loadViewMatrix(camera);
+        shaderBase.loadViewMatrix(MathUtils.createViewMatrix(camera));
         shaderBase.stop();
 
-
+        GL11.glEnable(GL_DEPTH_TEST);
 
 //         render stuff here
         for (Entity e : game.entityHandler.entities) {
@@ -87,12 +91,12 @@ public class Renderer {
                 RenderEntity renderEntity = getEntityRenderer(e);
                 renderEntity.render(e, renderEntity.modelEntity);
                 if (e.hitbox != null) {
-                    e.hitbox.render(null, projMatrix, camera);
+//                    e.hitbox.render(null, projMatrix, camera);
                 }
             }
         }
 
-        camera.boundEntity.hitbox.render(null, projMatrix, camera);
+//        camera.boundEntity.hitbox.render(null, projMatrix, camera);
 
         game.guiManager.render();
 

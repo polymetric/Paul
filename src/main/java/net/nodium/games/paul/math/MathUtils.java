@@ -61,6 +61,18 @@ public class MathUtils {
         return viewMatrix;
     }
 
+    public static Matrix4f createViewMatrixNoPos(Camera camera) {
+        Matrix4f viewMatrix = new Matrix4f();
+
+        viewMatrix.rotate((float) Math.toRadians(camera.roll), 0, 0, 1);
+        viewMatrix.rotate((float) Math.toRadians(camera.pitch), 1, 0, 0);
+        viewMatrix.rotate((float) Math.toRadians(camera.yaw), 0, 1, 0);
+//        viewMatrix.translate(new Vector3f(-camera.pos.x, -camera.pos.y, -camera.pos.z));
+//        viewMatrix.translate(new Vector3f(-camera.offset.x, -camera.offset.y, -camera.offset.z));
+
+        return viewMatrix;
+    }
+
     public static Matrix4f createProjMatrix(Display display, float fov, float nearPlane, float farPlane) {
         Matrix4f projMatrix = new Matrix4f();
 

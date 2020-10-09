@@ -2,6 +2,7 @@ package net.nodium.games.paul.entities.models;
 
 
 import net.nodium.games.paul.AssetLoader;
+import net.nodium.games.paul.gl.shaders.GLShader;
 import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.gl.textures.Texture;
 

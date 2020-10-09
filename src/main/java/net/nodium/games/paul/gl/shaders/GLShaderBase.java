@@ -39,8 +39,5 @@ public class GLShaderBase extends GLShader {
         super.loadMatrix4f(locProjMatrix, matrix);
     }
 
-    public void loadViewMatrix(Camera camera) {
-        Matrix4f matrix = MathUtils.createViewMatrix(camera);
-        super.loadMatrix4f(locViewMatrix, matrix);
-    }
+    public void loadViewMatrix(Matrix4f matrix) { super.loadMatrix4f(locViewMatrix, matrix); }
 }
