@@ -25,7 +25,7 @@ public class Renderer {
     private HashMap<Class, RenderEntity> entityRendererMap;
 
     public Matrix4f projMatrix;
-    public final float FOV_VERT = 90;
+    public final float FOV_HORIZ = 90;
     public final float NEAR_PLANE = 0.001f;
     public final float FAR_PLANE = 1000f;
 
@@ -49,7 +49,7 @@ public class Renderer {
     }
 
     public void createProjMatrix() {
-        projMatrix = MathUtils.createProjMatrix(display, FOV_VERT, NEAR_PLANE, FAR_PLANE);
+        projMatrix = MathUtils.createProjMatrix(display, FOV_HORIZ, NEAR_PLANE, FAR_PLANE);
 
         shaderBase.start();
         shaderBase.loadProjMatrix(projMatrix);
