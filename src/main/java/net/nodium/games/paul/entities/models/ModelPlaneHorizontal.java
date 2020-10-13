@@ -31,11 +31,6 @@ public class ModelPlaneHorizontal extends ModelEntity {
             }
         }
 
-        int[] indices = {
-                0,  1,  3,
-                1,  2,  3,
-        };
-
         float[] textureCoords = {
                 0, 1,
                 1, 1,
@@ -43,6 +38,18 @@ public class ModelPlaneHorizontal extends ModelEntity {
                 0, 0,
         };
 
-        super.model = assetLoader.loadToVAO(vertices, indices, textureCoords, texture, shader);
+        float[] normals = {
+                0, 1, 0,
+                0, 1, 0,
+                0, 1, 0,
+                0, 1, 0,
+        };
+
+        int[] indices = {
+                0,  1,  3,
+                1,  2,  3,
+        };
+
+        super.model = assetLoader.loadToVAO(vertices, textureCoords, normals, indices, texture, shader);
     }
 }

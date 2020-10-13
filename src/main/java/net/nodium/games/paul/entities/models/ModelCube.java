@@ -7,7 +7,15 @@ import net.nodium.games.paul.gl.shaders.GLShaderBase;
 import net.nodium.games.paul.gl.textures.Texture;
 
 public class ModelCube extends ModelEntity {
-    public ModelCube(AssetLoader assetLoader, GLShaderBase shader, Texture texture, float width, float height, float depth, boolean centered) {
+    public ModelCube(
+            AssetLoader assetLoader,
+            GLShaderBase shader,
+            Texture texture,
+            float width,
+            float height,
+            float depth,
+            boolean centered
+    ) {
         super(assetLoader);
 
         float[] vertices = {
@@ -66,32 +74,6 @@ public class ModelCube extends ModelEntity {
             }
         }
 
-        int[] indices = {
-                // face Xa
-                0,  1,  3,
-                1,  2,  3,
-
-                // face Za
-                4,  5,  7,
-                5,  6,  7,
-
-                // face Xb
-                8,  9, 11,
-                9, 10, 11,
-
-                // face Zb
-                12, 13, 15,
-                13, 14, 15,
-
-                // face Ya
-                16, 17, 19,
-                17, 18, 19,
-
-                // face Yb
-                20, 21, 23,
-                21, 22, 23,
-        };
-
         float[] textureCoords = {
                 // face Xa
                 0, 1,
@@ -130,6 +112,70 @@ public class ModelCube extends ModelEntity {
                 0, 0,
         };
 
-        super.model = assetLoader.loadToVAO(vertices, indices, textureCoords, texture, shader);
+        float[] normals = {
+                // face Xa
+                0, 0, -1,
+                0, 0, -1,
+                0, 0, -1,
+                0, 0, -1,
+
+                // face Za
+                -1, 0, 0,
+                -1, 0, 0,
+                -1, 0, 0,
+                -1, 0, 0,
+
+                // face Xb
+                0, 0, 1,
+                0, 0, 1,
+                0, 0, 1,
+                0, 0, 1,
+
+                // face Zb
+                1, 0, 0,
+                1, 0, 0,
+                1, 0, 0,
+                1, 0, 0,
+
+                // face Ya
+                0, -1, 0,
+                0, -1, 0,
+                0, -1, 0,
+                0, -1, 0,
+
+                // face Yb
+                0, 1, 0,
+                0, 1, 0,
+                0, 1, 0,
+                0, 1, 0,
+        };
+
+        int[] indices = {
+                // face Xa
+                0,  1,  3,
+                1,  2,  3,
+
+                // face Za
+                4,  5,  7,
+                5,  6,  7,
+
+                // face Xb
+                8,  9, 11,
+                9, 10, 11,
+
+                // face Zb
+                12, 13, 15,
+                13, 14, 15,
+
+                // face Ya
+                16, 17, 19,
+                17, 18, 19,
+
+                // face Yb
+                20, 21, 23,
+                21, 22, 23,
+        };
+
+        super.model = assetLoader.loadToVAO(vertices, textureCoords, normals, indices,  texture, shader);
     }
 }

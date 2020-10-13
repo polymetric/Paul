@@ -57,9 +57,16 @@ public class Game {
     }
 
     public void tick() {
-        mouseHandler.tick();
+        if (isPaused()) {
+            display.enableCursor();
+            return;
+        }
 
-//        if (isPaused()) return;
+        if (!camera.boundEntity.isDead()) {
+            display.disableCursor();
+
+            mouseHandler.tick();
+        }
 
         camera.tick();
         guiManager.tick();

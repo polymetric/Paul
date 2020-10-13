@@ -21,8 +21,11 @@ public class EntityOofCube extends Entity {
     public void init() {
 //        enableGravity = false;
 
-        deathAnimationLength = 1;
+        deathAnimationLength = .05f;
+//        deathAnimationLength = 1f;
         hitbox = new Hitbox(pos, 1, 1, 1);
+
+//        rotVel.y = 90;
 
         rand = new Random();
         rotVel.y = (rand.nextFloat() - rand.nextFloat()) * 100;
@@ -37,26 +40,26 @@ public class EntityOofCube extends Entity {
     @Override
     public void tick() {
         if (this.isWithinRadiusOf(entityHandler.game.camera.boundEntity, 2)) {
-            isBrring = true;
+//            isBrring = true;
         } else {
-            isBrring = false;
+//            isBrring = false;
         }
 
         if (isBrring) {
             brrPosAmount += 0.1F * getLogicDelta();
             brrRotAmount += 0.1F * getLogicDelta();
 
-            if (brrPosAmount >= 0.1F) {
-                brrPosAmount = 0.1F;
-            }
+//            if (brrPosAmount >= .3F) {
+//                brrPosAmount = .3F;
+//            }
 
-           posVel.x += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
-           posVel.y += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
-           posVel.z += rand.nextFloat() * brrPosAmount - rand.nextFloat() * brrPosAmount;
+           pos.x += (rand.nextFloat() - rand.nextFloat()) * brrPosAmount;
+           pos.y += (rand.nextFloat() - rand.nextFloat()) * brrPosAmount;
+           pos.z += (rand.nextFloat() - rand.nextFloat()) * brrPosAmount;
 
-            rot.x += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
-            rot.y += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
-            rot.z += rand.nextFloat() * brrRotAmount - rand.nextFloat() * brrRotAmount;
+           rot.x += (rand.nextFloat() - rand.nextFloat()) * brrPosAmount;
+           rot.y += (rand.nextFloat() - rand.nextFloat()) * brrPosAmount;
+           rot.z += (rand.nextFloat() - rand.nextFloat()) * brrPosAmount;
         } else {
             brrPosAmount -= brrPosAmount / getLogicDelta();
             brrRotAmount -= brrRotAmount / getLogicDelta();
@@ -67,14 +70,16 @@ public class EntityOofCube extends Entity {
 
     @Override
     public void onCollide(Entity other) {
+        if (other instanceof EntityOofCube) { return; }
+        if (isDead()) { return; }
         if (other instanceof EntityGround) {
-            this.kill();
+            this.kill(other);
             ((EntityGround) other).hurt(this, 1);
         }
     }
 
     @Override
     public void playDeathAnimation() {
-        scale = (float) (1 + (timeDead * getLogicDelta()));
+        scale = (float) (Math.pow(1 + timeDead * getLogicDelta(), 25));
     }
 }

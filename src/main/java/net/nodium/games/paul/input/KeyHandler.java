@@ -33,6 +33,7 @@ public class KeyHandler implements GLFWKeyCallbackI {
         if (key == GLFW_KEY_D) { game.camera.isMovingRight = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_SPACE) { game.camera.boundEntity.isJumping = action == GLFW_RELEASE ? false : true; }
         if (key == GLFW_KEY_R && action == GLFW_PRESS) { game.camera.boundEntity.setPos(0, 2, 0); }
+        if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS) { game.camera.boundEntity.kill(null); }
 
         // fire lazor
         if (key == GLFW_KEY_F && action == GLFW_PRESS ) { game.camera.boundEntity.fireLazor(); }

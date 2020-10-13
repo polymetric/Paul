@@ -7,6 +7,7 @@ import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL46;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.*;
@@ -54,7 +55,7 @@ public abstract class GLShader {
     }
 
     protected void loadBoolean(int location, boolean value) {
-        GL20.glUniform1f(location, (value) ? 1 : 0);
+        GL20.glUniform1i(location, value ? 1 : 0);
     }
 
     protected void loadMatrix4f(int location, Matrix4f matrix) {

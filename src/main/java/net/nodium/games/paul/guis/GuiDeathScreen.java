@@ -8,4 +8,10 @@ public class GuiDeathScreen extends GuiInfo {
 
         setText("you now have the dead");
     }
+
+    @Override
+    public void enable() {
+        super.enable();
+        age = 0;
+    }
 }

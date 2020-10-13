@@ -68,16 +68,16 @@ public class Renderer {
         // clear the framebuffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        if(!game.isPaused() && !game.camera.boundEntity.isDead()) {
+            camera.render();
+        }
+
         shaderBase.start();
         shaderBase.loadViewMatrix(MathUtils.createViewMatrixNoPos(camera));
         shaderBase.stop();
 
         glDisable(GL_DEPTH_TEST);
         skybox.render(null, skybox.modelEntity);
-
-        if(!game.isPaused()) {
-            camera.render();
-        }
 
         shaderBase.start();
         shaderBase.loadViewMatrix(MathUtils.createViewMatrix(camera));

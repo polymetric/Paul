@@ -25,7 +25,7 @@ public class EntityCamera extends Entity {
     @Override
     public void tick() {
         if (isFiringLazor) {
-            new EntityLazor(entityHandler, camera, camera.boundEntity);
+            new EntityLazor(entityHandler, camera, this);
             isFiringLazor = false;
         }
 
@@ -42,12 +42,14 @@ public class EntityCamera extends Entity {
     }
 
     @Override
-    public void kill() {
+    public void kill(Entity killer) {
         entityHandler.playerDied();
-        respawn();
+        super.kill(killer);
+//        respawn();
     }
 
     public void respawn() {
         this.setPos(0, 2, 0);
+        this.isDead = false;
     }
 }

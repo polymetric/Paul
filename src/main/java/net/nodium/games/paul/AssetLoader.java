@@ -18,12 +18,13 @@ public class AssetLoader {
     private ArrayList<Integer> vbos = new ArrayList<Integer>();
     private ArrayList<Integer> textures = new ArrayList<Integer>();
 
-    public GLModelTextured loadToVAO(float[] positions, int[] indices, float[] textureCoords, Texture texture, GLShaderBase shader) {
+    public GLModelTextured loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, Texture texture, GLShaderBase shader) {
         int vaoID = createVAO();
 
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0, 3, positions);
         storeDataInAttributeList(1, 2, textureCoords);
+        storeDataInAttributeList(2, 3, normals);
 
         unbindVAO();
 

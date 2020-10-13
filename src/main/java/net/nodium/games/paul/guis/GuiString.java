@@ -7,7 +7,7 @@ import org.joml.Vector2f;
 public class GuiString extends GuiTexture {
     public TextRenderer textRenderer;
 
-    public String text;
+    public String text = "";
 
     public GuiString(GuiManager guiManager, TextRenderer textRenderer) {
         super(guiManager);

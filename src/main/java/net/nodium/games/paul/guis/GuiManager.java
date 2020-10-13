@@ -18,6 +18,9 @@ public class GuiManager {
     public ArrayList<GuiString> guiStrings = new ArrayList<GuiString>();
 
     public GuiDeathScreen deathScreen;
+    public GuiTimer timer;
+    public GuiString killCounter;
+    public GuiString groundHealth;
 
     public GuiManager(Game game, AssetLoader assetLoader, Display display){
         this.game = game;
@@ -37,8 +40,17 @@ public class GuiManager {
 //        new GuiString(this, textRenderer).setText(" _");
 //        new GuiTexture(this).setTexture(new Texture("/textures/gui/font.png")).setPos(0, 0);
         deathScreen = new GuiDeathScreen(this, textRenderer);
-//        killCounter = new GuiKillCounter(this, textRenderer);
+        timer = new GuiTimer(this, textRenderer);
 
+        killCounter = new GuiString(this, textRenderer);
+        killCounter.setScale(4);
+        killCounter.setPos(-0.9f, 0.8f);
+//        killCounter.setText("kills: 0");
+
+        groundHealth = new GuiString(this, textRenderer);
+        groundHealth.setScale(4);
+        groundHealth.setPos(-0.9f, 0.7f);
+//        groundHealth.setText("health: 100");
     }
 
     public void tick() {
@@ -67,5 +79,17 @@ public class GuiManager {
         } else {
             guis.add(gui);
         }
+    }
+
+    public void displayDeathScreen() {
+        deathScreen.enable();
+    }
+    
+    public void updateKills(int kills, int totalSpawned) {
+        killCounter.setText(String.format("kills:  %4d / %4d", kills, totalSpawned));
+    }
+
+    public void updateHealth(int health) {
+        groundHealth.setText(String.format("health: %4d", health));
     }
 }

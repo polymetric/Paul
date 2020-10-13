@@ -21,6 +21,12 @@ public class EntityGround extends Entity {
     }
 
     @Override
+    public void tick() {
+        entityHandler.updateHealth(health);
+        super.tick();
+    }
+
+    @Override
     public void onCollide(Entity other) {
         other.posVel.y = Math.max(other.posVel.y, 0);
     }

@@ -10,7 +10,7 @@ import org.joml.Vector2f;
 public class EntityLazor extends Entity {
     private Entity sender;
 
-    private float lazorSpeed = 100F;
+    private float lazorSpeed = 175F;
     private int age = 0;
     private float lifespan = 1;
 
@@ -19,7 +19,7 @@ public class EntityLazor extends Entity {
 
         this.sender = sender;
 
-        hitbox = new Hitbox(pos, .5f, .5f, .5f);
+        hitbox = new Hitbox(pos, 1f, 1f, 1f);
         enableGravity = false;
         isSolid = false;
 
@@ -54,8 +54,11 @@ public class EntityLazor extends Entity {
         }
 
         other.posVel.add(MathUtils.vecFromAngle(angleFrom));
-        other.hurt(this, 10);
-        this.kill();
+        if (!(other instanceof EntityGround)) {
+            other.hurt(this, 10);
+            sender.incrementKills();
+        }
+        this.kill(other);
     }
 
     @Override
@@ -67,7 +70,7 @@ public class EntityLazor extends Entity {
 
 //        System.out.println(age);
         if (age > lifespan / getLogicDelta()) {
-            this.kill();
+            this.kill(null);
         }
 
         super.tick();

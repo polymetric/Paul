@@ -28,6 +28,7 @@ public abstract class Entity {
     public Hitbox hitbox;
 
     public int health = 1;
+    private int kills = 0;
 
     public float gravityAccel = 9.8F;
     public float airResistanceDecel = 0.00F;
@@ -42,15 +43,17 @@ public abstract class Entity {
     public boolean enableFriction = true;
 
     public int timeDead = 0;
-    public int deathAnimationLength = 0;
-    private boolean isDead = false;
-    private boolean markedForCleanup = false;
+    public float deathAnimationLength = 0;
+    protected boolean isDead = false;
+    private boolean isMarkedForCleanup = false;
 
     private boolean onGround = false;
     public boolean isJumping = false;
     public boolean invulnerable = false;
 
     public boolean isSolid = true;
+
+    private Entity lastDamagedBy = null;
 
     public Entity(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
@@ -65,9 +68,13 @@ public abstract class Entity {
     }
 
     public void tick() {
-        if (isDead()) { timeDead++; }
-        playDeathAnimation();
-        if (timeDead * getLogicDelta() > deathAnimationLength) { markedForCleanup = true; }
+        if (isDead()) {
+            timeDead++;
+            playDeathAnimation();
+            if (timeDead * getLogicDelta() > deathAnimationLength) {
+                isMarkedForCleanup = true;
+            }
+        }
 
         if (isJumping) { jump(); }
 
@@ -79,11 +86,11 @@ public abstract class Entity {
         tickFriction();
 
         if (health <= 0) {
-            kill();
+            kill(lastDamagedBy);
         }
 
         if (pos.y < -100) {
-            this.kill();
+            this.kill(null);
         }
     }
 
@@ -124,7 +131,7 @@ public abstract class Entity {
     private void tickAirResistance() {
         if (!enableAirResistance) { return; }
 
-        double delta = Launcher.game.gameLoop.getLogicDelta();
+        double delta = getLogicDelta();
 
         posVel.x -= posVel.x * airResistanceDecel * delta;
         posVel.y -= posVel.y * airResistanceDecel * delta;
@@ -168,8 +175,8 @@ public abstract class Entity {
     }
 
     public void onCollide(Entity other) {
-        if (this instanceof EntityGround) { return; }
-        if (other instanceof EntityGround) { posVel.y = Math.max(posVel.y, 0); return; }
+//        if (this instanceof EntityGround) { return; }
+//        if (other instanceof EntityGround) { posVel.y = Math.max(posVel.y, 0); return; }
 
         Vector2f angleFrom = MathUtils.getAngleBetweenPoints(this.pos, other.pos);
         CardinalDirection dirFrom = hitbox.intersectDir(other.hitbox);
@@ -206,7 +213,7 @@ public abstract class Entity {
         }
     }
 
-    public void kill() {
+    public void kill(Entity killer) {
         if (invulnerable) { return; }
         isDead = true;
     }
@@ -255,7 +262,7 @@ public abstract class Entity {
     }
 
     public boolean isMarkedForCleanup() {
-        return isMarkedForCleanup();
+        return isMarkedForCleanup;
     }
 
     public boolean onGround() { return onGround; }
@@ -273,5 +280,13 @@ public abstract class Entity {
 //        System.out.println(radius);
 //        System.out.println(MathUtils.xyzDistance(this.pos, entity.pos) < radius);
         return MathUtils.xyzDistance(this.pos, entity.pos) < radius;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void incrementKills() {
+        kills++;
     }
 }
