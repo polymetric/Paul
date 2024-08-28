@@ -14,7 +14,7 @@ public class RenderSkybox extends RenderEntity {
     public RenderSkybox(AssetLoader assetLoader, GLShaderBase shader) {
         super(assetLoader, shader);
 
-        modelEntity = new ModelCube(assetLoader, shader, new Texture("/textures/ns.PNG"), 1, 1, 1, true);
+        modelEntity = new ModelCube(assetLoader, shader, new Texture("/textures/sky.PNG"), 1, 1, 1, true);
     }
 
     @Override
